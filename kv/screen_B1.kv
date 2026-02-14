@@ -1,0 +1,61 @@
+ScreenB1:
+    id: _screen_b1
+    name: "screen B1"
+    scroll: _rvscroll_b1
+    md_bg_color: app.main_theme_bg_color
+
+    RVMDBoxLayout:
+        id: _rvbox_b1
+        orientation: "vertical"
+        rv: _rv_b1
+        spacing: dp(10)
+        name: "rvmd_b1"
+
+        IngredientSearchField:
+            id: _ingredient_search_b1
+            rv: _rv_b1
+            size_hint: 1, None
+            padding: [0,dp(10),0,0]
+
+        RV:
+            id: _rv_b1
+            rvtextfield: _ingredient_search_b1.rvtextfield
+            rvbox: _rvbox_b1
+            rvscroll: _rvscroll_b1
+            name: "rv_b1"
+            markup_label_b1: _markup_label_b1
+            orientation: "vertical"
+            size_hint: 0.8, None
+            height: 1
+            opacity: 0
+            padding: [dp(50),0,0,dp(10)]
+
+        MDLabel:
+            id: _markup_label_b1
+            size_hint: 1, None
+            height: app.separator_padding_y
+            halign: "center"
+            markup: True
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: app.separator_padding_y
+            # we add this fake box to add padding
+
+            MDSeparator:
+                width: dp(8)
+                color: 0,0,0,.4
+                color: app.separator_line_color
+
+        MDScrollView
+            id: _rvscroll_b1
+            size_hint_x: 0.9
+            pos_hint: {"center_x": .5}
+            
+            MyMDStackLayout:
+                id: _stack_b1
+                current_screen: "screen B1"
+                adaptive_height: True
+                orientation: "lr-tb"
+                spacing: dp(5)
+                padding: [0,dp(10),0,0]

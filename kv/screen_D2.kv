@@ -1,0 +1,99 @@
+#: import config_input config.config_input
+#: import platform kivy.utils.platform
+#: import Clock kivy.clock.Clock
+#: import partial functools.partial
+
+ScreenD2:
+    id: _screen_d2
+    name: "screen D2"
+    scroll: _scrollD2
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView:
+        id: _scrollD2
+
+        MDBoxLayout:
+            orientation:"vertical"
+            adaptive_height: True
+            padding: [dp(10),dp(20),dp(10),dp(20)]
+            spacing: "15dp"
+
+            ConfigBoxField:
+                label_text_config: app.current_lang["config"][5]
+                input_text_config: app.font_style_menu
+                function_code_config: "font_style_menu"
+
+            ConfigBoxField:
+                label_text_config: app.current_lang["config"][6]
+                input_text_config: app.font_style_tile
+                function_code_config: "font_style_tile"
+
+            MDBoxLayout:
+                adaptive_height: True
+                padding: [dp(10),dp(0),dp(10),dp(0)]
+                MDLabel:
+                    size_hint_x: 0.7
+                    text: app.current_lang["config"][10]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                DisabledField:
+                    id: _unselected_note_color_field
+                    size_hint_x: 0.3
+                    text: str(config_input["unselected_note_color"])
+                    hint_text_color_normal: app.hint_textfield_color
+                    helper_text_color_normal: app.helper_textfield_color_normal
+                    line_color_normal: app.line_textfield_color_normal
+                    text_color_normal: app.hint_textfield_color
+            
+                MDIconButton
+                    id: _unselected_note_colorpicker
+                    icon: "format-color-fill"
+                    theme_icon_color: "Custom"
+                    icon_color: app.colorpicker_icon_color
+                    on_release: 
+                        app.manager.transition.direction = "up" # $transition
+                        app.manager.edit_full_screen()
+                        if not app.manager.screen_e1_loaded: app.manager.load_E1_screen(); Clock.schedule_once(partial(app.manager.screenE1.ids._colorpicker.update_initial_hex,_unselected_note_color_field.text),0)
+                        app.manager.current = "screen E1"
+                        app.manager.screenE1.ids._colorpicker.hex_color = _unselected_note_color_field.text
+                        app.manager.screenE1.ids._colorpicker.label_id = "_unselected_note_color_field"
+            
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][11]
+                button_text_config: app.current_lang["config"][27]
+                function_code_config: "restore_inactive_note_bg_color"
+
+            MDBoxLayout:
+                adaptive_height: True
+                padding: [dp(10),dp(0),dp(10),dp(0)]
+                MDLabel:
+                    size_hint_x: 0.7
+                    text: app.current_lang["config"][12]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                DisabledField:
+                    size_hint_x: 0.3
+                    id: _selected_note_color_field
+                    text: str(config_input["selected_note_color"])
+                    hint_text_color_normal: app.hint_textfield_color
+                    helper_text_color_normal: app.helper_textfield_color_normal
+                    line_color_normal: app.line_textfield_color_normal
+                    text_color_normal: app.hint_textfield_color
+                    
+                MDIconButton
+                    id: _selected_note_colorpicker
+                    icon: "format-color-fill"
+                    theme_icon_color: "Custom"
+                    icon_color: app.colorpicker_icon_color
+                    on_release: 
+                        app.manager.transition.direction = "up" # $transition
+                        app.manager.edit_full_screen()
+                        if not app.manager.screen_e1_loaded: app.manager.load_E1_screen(); Clock.schedule_once(partial(app.manager.screenE1.ids._colorpicker.update_initial_hex,_selected_note_color_field.text),0)
+                        app.manager.current = "screen E1"
+                        app.manager.screenE1.ids._colorpicker.hex_color = _selected_note_color_field.text
+                        app.manager.screenE1.ids._colorpicker.label_id = "_selected_note_color_field"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][13]
+                button_text_config: app.current_lang["config"][27]
+                function_code_config: "restore_active_note_bg_color"

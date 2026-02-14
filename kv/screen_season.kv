@@ -1,0 +1,38 @@
+ScreenSeason:
+    id: _screen_season
+    name: "screen season"
+
+    MDCarousel:
+        id: _carousel_season
+        direction: "right"
+        
+        MyScatterPlane:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            do_rotation: False
+
+            FitImage:
+                source: join("images","season","saison_legumes_quebec.png")
+                fit_mode: "contain"
+                size: _screen_season.width, _screen_season.height
+                allow_stretch: True
+                keep_ratio: True
+
+        MyScatterPlane:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            do_rotation: False
+
+            Image:
+                source: join("images","season","saison_legumes_france.png")
+                fit_mode: "contain"
+                size: _screen_season.width, _screen_season.height
+                allow_stretch: True
+                keep_ratio: True
+
+    MDIconButton:
+        icon: "arrow-left"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+        on_release:
+            app.manager.restore_screen()
+            app.manager.current = "screen D1"

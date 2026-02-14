@@ -1,0 +1,32 @@
+ScreenC1:
+    id: _screen_c1
+    name: "screen C1"
+    scroll: _scrollC1
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView:
+        id: _scrollC1
+        StackBoxLayout:
+            id: _selection_list
+            adaptive_height: True
+            padding: "10dp"
+            spacing: "10dp"
+            
+            NoteStackLayout:
+                id: _selection_list_1
+                adaptive_height: True
+                pos_hint: {"top": 1}
+
+            NoteStackLayout:
+                id: _selection_list_2
+                adaptive_height: True
+                pos_hint: {"top": 1}
+
+    MDFloatLayout:
+        MDFloatingActionButton:
+            icon: "plus"
+            pos_hint: {"center_x": 0.85, "top": 0.15}
+            md_bg_color: app.theme_cls.primary_color
+            on_release: 
+                app.manager.screenEditNote.ids._note_box.activate_edit_mode()
+                app.manager.screenEditNote.ids._note_box.add_title()

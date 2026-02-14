@@ -1,0 +1,53 @@
+<NavigationRelativeLayout>:
+    MDLabel:
+        text: root.text
+        size: self.texture_size
+        font_size: app.font_size_nav + "sp"
+        halign: "center"
+        pos_hint: {"center_x": .5, "center_y": .8}
+        theme_text_color: "Custom"
+        text_color: root.text_color_inactive
+    MDIconButton:
+        icon: root.icon
+        pos_hint: {"center_x": .5, "center_y": .4}
+        theme_text_color: "Custom"
+        text_color: root.icon_color_inactive
+        _no_ripple_effect: True
+
+        on_press:
+            app.navigation.ids._grid_navigation.change_color_navigation(self.icon)
+        on_release:
+            app.manager.change_screen_navigation(root.name)
+            
+MDBoxLayout:
+    id: _navigation
+    size_hint_y: app.size_hint_navigation
+    md_bg_color: [0.14901960784313725,0.15294117647058825,0.18823529411764706,1.0]
+
+    NavigationGrid:
+        id: _grid_navigation
+        cols:4
+        padding: [dp(20),0,dp(20),0]
+
+        NavigationRelativeLayout:
+            id: _bowl-mix
+            text: app.current_lang["navigation_titles"][0]
+            icon: "bowl-mix"
+            name: app.manager.last_A_screen
+            text_color: self.text_color_active
+            icon_color: self.icon_color_active
+        NavigationRelativeLayout:
+            id: _fridge-industrial
+            text: app.current_lang["navigation_titles"][1]
+            icon: "fridge-industrial"
+            name: app.manager.last_B_screen
+        NavigationRelativeLayout:
+            id: _text-box-edit-outline
+            text: app.current_lang["navigation_titles"][2]
+            icon: "text-box-edit-outline"
+            name: app.manager.last_C_screen
+        NavigationRelativeLayout:
+            id: _cog
+            text: app.current_lang["navigation_titles"][3]
+            icon: "cog"
+            name: app.manager.last_D_screen

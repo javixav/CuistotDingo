@@ -1,0 +1,176 @@
+<ScreenA0@MyMDScreen>:
+    # screen that displays the tiles descriptions
+    id: _screenA0
+    name: "screen A0"
+    tile_A0: _screenA0Tile
+    scroll: _scrollA0
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView:
+        id: _scrollA0
+
+        MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            padding: [0,0,0,"24dp"]
+
+            MyMDSmartTile:
+                id: _screenA0Tile
+                size_hint: 1, None
+                height: "180dp"
+
+            MDBoxLayout:
+                id: _screenA0Content
+                orientation: "vertical"
+                padding: "24dp", 0, "24dp", 0
+                adaptive_height: True
+
+                MDLabel:
+                    text: app.current_lang["a0"][0]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    padding: [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDLabel:
+                    id: _ingredients
+                    adaptive_height: True
+                    # text: str(_screenA0Tile.ingredients)[1:-1]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                    markup: True
+
+                MDLabel:
+                    text: app.current_lang["a0"][1]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    padding: [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                
+                MDLabel:
+                    adaptive_height: True
+                    text: _screenA0Tile.description
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDLabel:
+                    text: app.current_lang["a0"][2]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    size_hint_y: 0.01 if _screenA0Tile.astuces == "" else None
+                    opacity: 0 if _screenA0Tile.astuces == "" else 1
+                    padding: [0,0,0,0] if _screenA0Tile.astuces == "" else [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                
+                MDLabel:
+                    adaptive_height: True
+                    text: _screenA0Tile.astuces
+                    size_hint_y: 0.01 if _screenA0Tile.astuces == "" else None
+                    opacity: 0 if _screenA0Tile.astuces == "" else 1
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDLabel:
+                    text: app.current_lang["a0"][3]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    size_hint_y: 0.01 if _screenA0Tile.commentaire == "" else None
+                    opacity: 0 if _screenA0Tile.commentaire == "" else 1
+                    padding: [0,0,0,0] if _screenA0Tile.commentaire == "" else [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                
+                MDLabel:
+                    adaptive_height: True
+                    text: _screenA0Tile.commentaire
+                    size_hint_y: 0.01 if _screenA0Tile.commentaire == "" else None
+                    opacity: 0 if _screenA0Tile.commentaire == "" else 1
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDLabel:
+                    text: app.current_lang["a0"][4]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    size_hint_y: 0.01 if _screenA0Tile.nb_personne == "" else None
+                    opacity: 0 if _screenA0Tile.nb_personne == "" else 1
+                    padding: [0,0,0,0] if _screenA0Tile.nb_personne == "" else [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                
+                MDLabel:
+                    adaptive_height: True
+                    text: _screenA0Tile.nb_personne
+                    size_hint_y: 0.01 if _screenA0Tile.nb_personne == "" else None
+                    opacity: 0 if _screenA0Tile.nb_personne == "" else 1
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDLabel:
+                    id: _season_a0_title
+                    text: app.current_lang["a0"][5]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    size_hint_y: 0.01 if _screenA0Tile.saison == "" else None
+                    opacity: 0 if _screenA0Tile.saison == "" else 1
+                    padding: [0,0,0,0] if _screenA0Tile.saison == "" else [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                
+                MDLabel:
+                    id: _season_a0_value
+                    adaptive_height: True
+                    text: _screenA0Tile.saison
+                    size_hint_y: 0.01 if _screenA0Tile.saison == "" else None
+                    opacity: 0 if _screenA0Tile.saison == "" else 1
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDLabel:
+                    id: _source_a0_title
+                    text: app.current_lang["a0"][6]
+                    font_style: "H5"
+                    bold: True
+                    adaptive_height: True
+                    size_hint_y: 0.01 if _screenA0Tile.source_recette == "" else None
+                    opacity: 0 if _screenA0Tile.source_recette == "" else 1
+                    padding: [0,0,0,0] if _screenA0Tile.source_recette == "" else [0,"24dp",0,"24dp"]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+                
+                MDLabel:
+                    id: _source_a0_value
+                    adaptive_height: True
+                    text: _screenA0Tile.source_recette
+                    size_hint_y: 0.01 if _screenA0Tile.source_recette == "" else None
+                    opacity: 0 if _screenA0Tile.source_recette == "" else 1
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+    GoBackIconButton:
+        id: _go_back_to_recipes
+        icon: "close"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+
+    MDIconButton:
+        id: _pencil_A0
+        icon: "pencil"
+        md_bg_color: 1, 1, 1, .6
+        pos_hint: {"right": .95, "top": .99}
+        on_release:
+            if not app.manager.screen_a5_loaded: app.manager.load_A5_screen()
+            app.A5_edition = True
+            app.manager.screenA5.tile_A5.ids.image.source = _screenA0.tile_A0.ids.image.source
+            app.manager.current = "screen A5"
+            _screenA0.fill_A5_stack()

@@ -1,0 +1,26 @@
+ScreenRstHelp:
+    id: _screen_rst_help
+    name: "screen rst help"
+    fullscreen: True
+
+    MDBoxLayout:
+        RstDocument:
+            id: _rst_help
+            text: app.current_lang["rst_help_text"]
+
+    MDIconButton:
+        icon: "arrow-left"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+        on_release: 
+            app.manager.current = "screen rst edit"
+
+    MDIconButton:
+        icon: "code-braces"
+        md_bg_color: 1, 1, 1, .6
+        pos_hint: {"center_x": .8, "top": .99}
+        on_release: 
+            if not app.manager.screen_rst_code_loaded: app.manager.load_rst_code_screen()
+            app.manager.current = "screen rst code"
+            app.manager.screenRstCode.ids._scroll_rst_code.scroll_y = 1

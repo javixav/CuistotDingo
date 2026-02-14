@@ -1,0 +1,320 @@
+<SpeedActionButton@MDFloatingActionButton>:
+    type: "small"
+    md_bg_color: app.theme_cls.primary_color
+    size_hint_y: None
+    pos_hint: {"center_x": .5, "center_y": .5}
+    disabled: root.disabled
+
+<SpeedLabel>:
+    halign: "right"
+    pos_hint: {"center_y": .5}
+    theme_text_color: "Custom"
+    text_color: app.speed_label_color
+
+<SpeedBox@MDBoxLayout>:
+    spacing : "10dp"
+
+<SpeedAnchor@AnchorLayout>:
+    anchor_x: "right"
+    anchor_y: "bottom"
+    padding : ["15dp","15dp","15dp","30dp"]
+
+    MDBoxLayout:
+        size_hint_y: None
+        pos_hint: {"center_x": .5, "center_y": .5}
+        height: root.height/1.8
+        orientation: "vertical"
+
+        SpeedBox:
+            opacity: _add_note_action_button.opacity_button
+            SpeedLabel:
+                text: app.current_lang["speedbox"][0]
+                
+            SpeedActionButton:
+                id: _speed_text_button
+                disabled: _add_note_action_button.disabled_speed
+                icon: 'text-box-edit-outline'
+                on_release: app.manager.screenEditNote.ids._note_box.add_textfield()
+                
+        SpeedBox:
+            opacity: _add_note_action_button.opacity_button
+            SpeedLabel:
+                text: app.current_lang["speedbox"][1]
+
+            SpeedActionButton:
+                id: _speed_title_button
+                disabled: _add_note_action_button.disabled_speed
+                icon: 'format-title'
+                on_release: app.manager.screenEditNote.ids._note_box.add_another_title()
+
+        SpeedBox:
+            opacity: _add_note_action_button.opacity_button
+            SpeedLabel:
+                text: app.current_lang["speedbox"][2]
+
+            SpeedActionButton:
+                id: _speed_picture_button
+                disabled: _add_note_action_button.disabled_speed
+                icon: 'camera'
+                on_release: app.manager.screenEditNote.ids._note_box.add_picture()
+
+        SpeedBox:
+            opacity: _add_note_action_button.opacity_button
+            SpeedLabel:
+                text: app.current_lang["speedbox"][3]
+
+            SpeedActionButton:
+                id: _speed_separator_button
+                disabled: _add_note_action_button.disabled_speed
+                icon: 'minus'
+                on_release: app.manager.screenEditNote.ids._note_box.add_separator()
+
+        SpeedBox:
+            opacity: _add_note_action_button.opacity_button
+            SpeedLabel:
+                text: app.current_lang["speedbox"][4]
+
+            SpeedActionButton:
+                id: _speed_rst_button
+                disabled: _add_note_action_button.disabled_speed
+                icon: 'text-box-edit-outline'
+                on_release: app.manager.screenEditNote.ids._note_box.edit_rst()
+
+        MyMDFloatingActionButton:
+            id: _add_note_action_button
+            opacity: 0
+            icon: "plus"
+            type: "small"
+            pos_hint: {"right": 1}
+            md_bg_color: app.theme_cls.primary_color
+            on_release:
+                if self.icon == "plus": self.open_speed()
+                else: self.close_speed()
+
+<RstBox>:
+    adaptive_height: True
+    orientation: "vertical"
+
+    ItemIconButton:
+        id: _item_rstbox
+
+    MyRstDocument:
+        id: _rst_note
+        text: root.text
+        size_hint_y: None
+        height: self.content.height
+        do_scroll_y: False
+        background_color: root.md_bg_color
+        
+<TextFieldBox>:
+    orientation: "vertical"
+    adaptive_height: True
+
+    ItemIconButton:
+        
+    NoteField:
+        id: _notefield_text
+        multiline: True
+        helper_text: app.current_lang["notes"][0] 
+        text: root.text
+        line_color_normal: app.main_theme_bg_color
+
+<SeparatorBox>:
+    orientation: "vertical"
+    adaptive_height: True
+
+    ItemIconButton:
+        
+    MDSeparator:
+        color: app.separator_line_color
+
+<TitleFieldBox>:
+    orientation: "vertical"
+    adaptive_height: True
+
+    ItemIconButton:
+        
+    NoteField:
+        id: _notefield_title
+        font_size: "32sp"
+        multiline: True
+        helper_text: app.current_lang["notes"][0]
+        text: root.title
+
+<PictureBox>:
+    orientation: "vertical"
+    adaptive_height: True
+    padding : [0,0,0,"12dp"]
+
+    ItemIconButtonPicture:
+        
+    FitImage:
+        id: _fitimage
+        source: root.source
+        height: "260dp"
+        size_hint_y: None
+
+<ItemIconButtonPicture>:
+    size_hint_y: None
+    height: app.manager.screenEditNote.item_height
+    icon_color: app.item_icon_button_color
+
+    MDIconButton:
+        id: _rotate_note_picture
+        icon: "rotate-left" # folder-plus-outline ; folder-arrow-down-outlinei
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .2, "top": app.center_y_note_item}
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: 
+            app.current_fitimage = self.parent.parent.ids._fitimage
+            app.manager.screenPicture.rotate_image(app.current_fitimage.source)
+
+    MDIconButton:
+        id: _take_picture
+        icon: "camera"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .35, "top": app.center_y_note_item}
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: 
+            app.current_fitimage = self.parent.parent.ids._fitimage
+            app.manager.screenPicture.picture_name = app.generate_picture_note_name()[:-4] if app.current_fitimage.source == source_image_default else basename(app.current_fitimage.source[:-4])
+            app.manager.current = "picture screen"
+
+    MDIconButton:
+        id: _load_picture
+        icon: "folder-plus-outline" # folder-plus-outline ; folder-arrow-down-outlinei
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .5, "top": app.center_y_note_item}
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: 
+            app.current_fitimage = self.parent.parent.ids._fitimage
+            app.manager.screenPicture.picture_name = app.generate_picture_note_name()[:-4] if app.current_fitimage.source == source_image_default else basename(app.current_fitimage.source[:-4])
+            app.chooser_start_picture()
+
+    MDIconButton:
+        id: _down_relative
+        icon: "arrow-down-bold"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .65, "top": app.center_y_note_item}
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: 
+            app.manager.screenEditNote.ids._note_box.move_item(root, "down")
+
+    MDIconButton:
+        id: _up_relative
+        icon: "arrow-up-bold"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .8, "top": app.center_y_note_item}
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: app.manager.screenEditNote.ids._note_box.move_item(root, "up")
+
+    MDIconButton:
+        id: _trash_relative
+        icon: "trash-can-outline"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .95, "top": app.center_y_note_item}
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: app.manager.screenEditNote.ids._note_box.trash_item(root)
+
+<ItemIconButton>:
+    size_hint_y: None
+    height: app.manager.screenEditNote.item_height
+    icon_color: app.item_icon_button_color
+
+    MDIconButton:
+        id: _down_relative
+        icon: "arrow-down-bold"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .65, "top": app.center_y_note_item}
+        on_release: 
+            app.manager.screenEditNote.ids._note_box.move_item(root, "down")
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+
+    MDIconButton:
+        id: _up_relative
+        icon: "arrow-up-bold"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .8, "top": app.center_y_note_item}
+        on_release: app.manager.screenEditNote.ids._note_box.move_item(root, "up")
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+
+    MDIconButton:
+        id: _trash_relative
+        icon: "trash-can-outline"
+        _no_ripple_effect: True
+        pos_hint: {"center_x": .95, "top": app.center_y_note_item}
+        on_release: app.manager.screenEditNote.ids._note_box.trash_item(root)
+        icon_size: "24sp"
+        opacity: app.manager.screenEditNote.item_opacity
+        disabled: app.manager.screenEditNote.item_disabled
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+
+##############################################################################################################
+########################################      Main Rule      ###################################################
+##############################################################################################################
+
+<ScreenEditNote>:
+    id: _screen_edit_note
+    name: "screen edit note"
+    speed_object: _speed_anchor
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView: 
+        NoteBoxLayout:
+            id: _note_box
+            orientation: "vertical"
+            adaptive_height: True
+            padding: [dp(20), dp(50), dp(20), dp(60)]
+
+    SpeedAnchor:
+        id: _speed_anchor
+
+    MDIconButton:
+        icon: "arrow-left"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+        on_release: 
+            app.manager.restore_screen()
+            _note_box.save_note()
+            
+    MDIconButton:
+        id: _pencil_edit_note
+        icon: "pencil"
+        md_bg_color: 1, 1, 1, .6
+        pos_hint: {"right": .95, "top": .99}
+        on_release: 
+            _note_box.activate_edit_mode() if self.icon == "pencil" else _note_box.deactivate_edit_mode()

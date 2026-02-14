@@ -1,0 +1,114 @@
+#: import Clock kivy.clock.Clock
+#: import partial functools.partial
+
+MDScreen:
+    id: _screen_calcul
+    name: "screen calcul"
+    md_bg_color: app.main_theme_bg_color
+
+    # because on_pre_leave comes after on_pre_enter screen D1
+    on_enter: app.manager.previous_screen = self.name
+
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: True
+        pos_hint: {"center_x":.5,"top": .9} 
+        size_hint_x : 0.8
+    
+        MDBoxLayout:
+            adaptive_height: True
+            padding: [dp(20),dp(0),dp(20),dp(0)]
+            MDLabel:
+                size_hint_x: 0.5
+                text : "LBS"
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+            SettingsField:
+                id: _lbs
+                size_hint_x: 0.5
+                input_filter: "float"
+                line_color_normal: app.line_textfield_color_normal
+                text_color_normal: app.text_textfield_color_normal
+                on_kv_post:
+                    Clock.schedule_once(partial(app.delay_focus_true, self), 0)
+
+        MDBoxLayout:
+            adaptive_height: True
+            padding: [dp(20),dp(0),dp(20),dp(0)]
+            MDLabel:
+                size_hint_x: 0.5
+                text : "kg"
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+            SettingsField:
+                id: _kg
+                size_hint_x: 0.5
+                text: str(round(float(_lbs.text)/2.2 ,2)) if _lbs.text else ""
+                line_color_normal: app.line_textfield_color_normal
+                text_color_normal: app.text_textfield_color_normal
+                on_text_validate: _lbs.text = str(round(float(self.text)*2.2 ,2))
+                on_kv_post:
+                    Clock.schedule_once(partial(app.delay_focus_true, self), 0)
+
+        MDBoxLayout:
+            adaptive_height: True
+            padding: [dp(20),dp(50),dp(20),dp(50)]
+            MDSeparator:
+                width: dp(12)
+                color: 0,0,0,.8
+                color: app.separator_line_color
+
+        MDBoxLayout:
+            adaptive_height: True
+            padding: [dp(20),dp(0),dp(20),dp(0)]
+            MDLabel:
+                size_hint_x: 0.5
+                text : "Farenheit"
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+            SettingsField:
+                id: _farenheit
+                size_hint_x: 0.5
+                input_filter: "float"
+                line_color_normal: app.line_textfield_color_normal
+                text_color_normal: app.text_textfield_color_normal
+                on_kv_post:
+                    Clock.schedule_once(partial(app.delay_focus_true, self), 0)
+
+        MDBoxLayout:
+            adaptive_height: True
+            padding: [dp(20),dp(0),dp(20),dp(0)]
+            MDLabel:
+                size_hint_x: 0.5
+                text : "Celcius"
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+            SettingsField:
+                id: _celcius
+                size_hint_x: 0.5
+                text: str(round((float(_farenheit.text) - 32 ) *5/9 ,2)) if _farenheit.text else ""
+                line_color_normal: app.line_textfield_color_normal
+                text_color_normal: app.text_textfield_color_normal
+                on_text_validate: _farenheit.text = str(round(float(self.text)*1.8 + 32 ,2))
+                on_kv_post:
+                    Clock.schedule_once(partial(app.delay_focus_true, self), 0)
+
+    MDIconButton:
+        icon: "arrow-left"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+        on_release:
+            app.manager.transition.direction = "down"
+            app.manager.restore_screen()
+            app.manager.current = "screen D1"
+
+    MDIconButton:
+        icon: "trash-can-outline"
+        md_bg_color: 1, 1, 1, .6
+        pos_hint: {"right": .95, "top": .99}
+        on_release: 
+            _lbs.text = ""
+            _kg.text = ""
+            _celcius.text = ""
+            _farenheit.text = ""

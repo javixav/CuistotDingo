@@ -1,0 +1,12 @@
+MyMDTopAppBar:
+    id: _appbar
+    elevation: 0
+    anchor_title: "left"
+    size_hint_y: app.size_hint_appbar
+    right_action_items: 
+        [
+        ["magnify", lambda x: self.search(), app.current_lang["tooltip_text_appbar"][0]],
+        ["dots-vertical", lambda x: self.menu_appbar(x), "Menu"] 
+        ]
+    md_bg_color: [0.14901960784313725,0.15294117647058825,0.18823529411764706,1.0]
+    specific_text_color: [1,1,1,1]

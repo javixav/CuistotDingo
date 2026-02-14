@@ -1,0 +1,244 @@
+#: import recipes core.InMyFridge.recipes
+#: set source_image_default join("images","CuistotDingo.png")
+
+<AddRecipeLabel@MDLabel>:
+    font_style: "H5"
+    bold: True
+    adaptive_height: True
+    padding: [dp(15),dp(10),0,0]
+    theme_text_color: "Custom"
+    text_color: app.text_label_color
+
+<AddRecipeField>:
+    multiline: True
+    size_hint: 0.9, None
+    pos_hint: {"center_x": .5}
+    adaptive_height: True
+    hint_text_color_normal: app.hint_textfield_color
+    helper_text_color_normal: app.helper_textfield_color_normal
+    line_color_normal: app.line_textfield_color_normal
+    text_color_normal: app.text_textfield_color_normal
+
+<ClickableTextField>:
+    size_hint: 0.9, None
+    pos_hint: {"center_x": .5}
+    height: _ingredient_field.height
+    text_color_normal: app.text_textfield_color_normal
+    hint_text_color_normal: app.hint_textfield_color
+    helper_text_color_normal: app.helper_textfield_color_normal
+    line_color_normal: app.line_textfield_color_normal
+    helper_text_color_focus: app.helper_textfield_color_focus
+    icon_color: app.theme_cls.primary_color
+
+    MDTextField:
+        id: _ingredient_field
+        hint_text: root.hint_text
+        helper_text: root.helper_text if self.focus else ""
+        size_hint: 1, None
+        pos_hint: {"center_x": .5}
+        font_size: sp(16)
+        hint_text_color_normal: root.hint_text_color_normal
+        helper_text_color_normal: root.helper_text_color_normal
+        helper_text_color_focus: root.helper_text_color_focus
+        text_color_normal: root.text_color_normal
+        line_color_normal: root.line_color_normal
+
+        on_triple_tap:
+            self.focus = True
+            Clock.schedule_once(lambda dt: self.select_all())
+
+    MDIconButton:
+    	icon: "plus-circle-outline"
+        pos_hint: {"center_y": .5}
+        pos: _ingredient_field.width - self.width + dp(8), 0
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: 
+            app.manager.screenA5.stack_a5.add_ingredient(_ingredient_field.text)
+            _ingredient_field.text =""
+
+ScreenA5:
+    name: "screen A5"
+    scroll: _rvscroll_a5
+    stack_a5: _stack_a5
+    tile_A5: _screenA5Tile
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView:
+        id: _rvscroll_a5
+        RVMDBoxLayout:
+            id: _rvbox_a5
+            orientation: "vertical"
+            rv: _rv_a5
+            size_hint: 1, None
+            adaptive_height: True
+            padding: [0,0,0,"24dp"]
+            name: "rvmd_a5"
+
+            MDSmartTile:
+                id: _screenA5Tile
+                
+                size_hint: 1, None
+                height: "180dp"
+                padding: [0,0,0,dp(10)]
+                
+                MDIconButton:
+                    icon: "camera"
+                    theme_icon_color: "Custom"
+                    icon_color: 1, 1, 1, 1
+                    pos_hint: {"center_y": .5}
+                    on_release: 
+                        app.manager.screenPicture.tile = app.manager.screenA0.tile_A0
+                        app.manager.screenPicture.picture_name = app.manager.screenA0.tile_A0.index_picture if app.A5_edition else str(len(recipes[2])+1)
+                        app.manager.edit_full_screen()
+                        app.manager.current = "picture screen"
+
+                MDIconButton:
+                    icon: "fullscreen"
+                    theme_icon_color: "Custom"
+                    icon_color: 1, 1, 1, 1
+                    pos_hint: {"center_y": .5}
+                    on_release: 
+                        app.open_recipe_image_with_google(_screenA5Tile.ids.image.source)
+                        
+                MDIconButton:
+                    icon: "rotate-left"
+                    theme_icon_color: "Custom"
+                    icon_color: 1, 1, 1, 1
+                    pos_hint: {"center_y": .5}
+                    on_release: 
+                        app.manager.screenPicture.rotate_image(_screenA5Tile.ids.image.source)
+
+                MDIconButton:
+                    icon: "content-copy"
+                    theme_icon_color: "Custom"
+                    icon_color: 1, 1, 1, 1
+                    pos_hint: {"center_y": .5}
+                    opacity: 1 if app.A5_edition else 0
+                    disabled: 0 if app.A5_edition else 1
+                    on_release: 
+                        app.copy_recipe_to_clipboard(_instruction_label.text, _instruction_field.text, _astuce_label.text, _astuce_field.text, _commentaire_label.text, _commentaire_field.text, _source_label.text, _source_field.text)
+            
+            AddRecipeLabel:
+                text: app.current_lang["a5"][0] 
+
+            AddRecipeField:
+                id: _title_field
+                hint_text: app.current_lang["a5"][1] if not self.text else ""
+                text: app.manager.screenA0.tile_A0.text if app.A5_edition else ""
+
+            AddRecipeLabel:
+                text: app.current_lang["a5"][2] 
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+                
+            IngredientSearchField:
+                id: _ingredient_search_a5
+                rv: _rv_a5
+                size_hint: 1, None
+        
+            RV:
+                id: _rv_a5
+                rvtextfield: _ingredient_search_a5.rvtextfield
+                rvbox: _rvbox_a5
+                rvscroll: _rvscroll_a5
+                orientation: "vertical"
+                size_hint: 0.8, None
+                height: 1
+                opacity: 0
+                padding: [dp(55),0,0,dp(10)]
+
+            ClickableTextField:
+                id: _clickable_field
+                hint_text: app.current_lang["a5"][3]  if not self.ids._ingredient_field.focus else " "
+                # hint_text here is special else has a blank space because of a color bug
+                helper_text: app.current_lang["a5"][17]
+                                    
+            MyMDStackLayout:
+                id: _stack_a5
+                orientation: "lr-tb"
+                padding: [dp(15),dp(10),0,0]
+                adaptive_height: True
+                spacing: dp(5)
+                current_screen: "screen A5"
+
+            AddRecipeLabel:
+                id: _instruction_label
+                text: app.current_lang["a5"][4] 
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+
+            AddRecipeField:
+                id: _instruction_field
+                hint_text: app.current_lang["a5"][5] if not self.text else ""
+                text: app.manager.screenA0.tile_A0.description if app.A5_edition else ""
+
+            AddRecipeLabel:
+                id: _astuce_label
+                text: app.current_lang["a5"][6]
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+
+            AddRecipeField:
+                id: _astuce_field
+                hint_text: app.current_lang["a5"][7] if not self.text else ""
+                text: app.manager.screenA0.tile_A0.astuces if app.A5_edition else ""
+
+            AddRecipeLabel:
+                id: _commentaire_label
+                text: app.current_lang["a5"][8]
+                theme_text_color: "Custom"
+                text_color: app.text_label_color
+
+            AddRecipeField:
+                id: _commentaire_field
+                hint_text: app.current_lang["a5"][9] if not self.text else ""
+                text: app.manager.screenA0.tile_A0.commentaire if app.A5_edition else ""
+
+            AddRecipeLabel:
+                id: _source_label
+                text: app.current_lang["a5"][10]
+
+            AddRecipeField:
+                id: _source_field
+                hint_text: app.current_lang["a5"][11] if not self.text else ""
+                text: app.manager.screenA0.tile_A0.source_recette if app.A5_edition else ""
+
+            AddRecipeLabel:
+                text: app.current_lang["a5"][12]
+
+            AddRecipeField:
+                id: _nb_personne_field
+                hint_text: app.current_lang["a5"][13] if not self.text else ""
+                text: app.manager.screenA0.tile_A0.nb_personne if app.A5_edition else ""
+
+            AddRecipeLabel:
+                text: app.current_lang["a5"][14]
+
+            AddRecipeField:
+                id: type_field
+                hint_text: app.current_lang["a5"][15] if not self.text else ""
+
+            MDFloatLayout:
+                size_hint: 1, None
+
+                SaveRecipeButton:
+                    id: _save_recipe
+                    icon: "content-save"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    text: app.current_lang["a5"][16]
+                    theme_text_color: "Custom"
+                    font_size: sp(20)
+                    text_color: app.text_label_color
+                    opacity: 0 if app.A5_edition else 1
+                    disabled : True if app.A5_edition else False
+    MDIconButton:
+        icon: "arrow-left"
+        active : True if app.A5_edition else False
+        opacity : 1 if app.A5_edition else 0
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+        on_release:
+            app.manager.current = "screen A0"
+            _save_recipe.on_release()

@@ -1,0 +1,121 @@
+#: import config_input config.config_input
+#: import platform kivy.utils.platform
+#: import Clock kivy.clock.Clock
+#: import partial functools.partial
+
+
+<ConfigBoxButton>:
+    adaptive_height: True
+    padding: [dp(10),dp(0),dp(10),dp(0)]
+    label_hint_x_config: 0.85
+    button_hint_x_config: 0.15
+    spacing: "15dp"
+
+    MDLabel:
+        size_hint_x: root.label_hint_x_config
+        text: root.label_text_config
+        theme_text_color: "Custom"
+        text_color: app.text_label_color
+    MDRectangleFlatButton:
+        size_hint_x: root.button_hint_x_config
+        text: root.button_text_config
+        on_release: app.rule_validate(root.function_code_config,self.text)
+
+<ConfigBoxSegmented>:
+    adaptive_height: True
+    padding: [dp(10),dp(0),dp(10),dp(10)]
+    MDLabel:
+        text: root.label_text_config
+        theme_text_color: "Custom"
+        text_color: app.text_label_color
+
+ScreenD1:
+    id: _screen_d1
+    name: "screen D1"
+    scroll: _scrollD1
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView:
+        id: _scrollD1
+
+        MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            padding: [dp(10),dp(20),dp(10),dp(20)]
+            spacing: "15dp"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][16]
+                button_text_config: app.current_lang["config"][28]
+                function_code_config: "calcul_screen"
+
+            MDBoxLayout:
+                adaptive_height: True
+                padding: [dp(10),dp(0),dp(10),dp(0)]
+                spacing: "15dp"
+
+                MDLabel:
+                    text: app.current_lang["config"][17]
+                    theme_text_color: "Custom"
+                    text_color: app.text_label_color
+
+                MDRectangleFlatButton:
+                    text: "france"
+                    on_release: app.rule_validate("season_screen_google" , self.text)
+
+                MDRectangleFlatButton:
+                    text: "quebec"
+                    on_release: app.rule_validate("season_screen_google" , self.text)
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][25]
+                button_text_config: app.current_lang["config"][37]
+                function_code_config: "help_section"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][26]
+                button_text_config: app.current_lang["config"][38]
+                function_code_config: "test_section"
+
+            ConfigBoxSegmented:
+                label_text_config: app.current_lang["config"][14]
+
+                MyMDSegmentedControl:
+                    id: _segmented_control_color
+                    on_active: 
+                        app.segmented_activate(args[1].text)
+
+                    MDSegmentedControlItem:
+                        id: _sci_blue
+                        text: "Blue"
+                        size_hint_x: 0.3
+
+                    MDSegmentedControlItem:
+                        id: _sci_white
+                        text: "White"
+                        size_hint_x: 0.3
+
+                    MDSegmentedControlItem:
+                        id: _sci_black
+                        text: "Black"
+                        size_hint_x: 0.3
+
+            ConfigBoxSegmented:
+                label_text_config: app.current_lang["config"][15]
+
+                MyMDSegmentedControl:
+                    id: _segmented_control_lang
+                    on_active: 
+                        app.segmented_activate(args[1].text)
+
+                    MDSegmentedControlItem:
+                        id: _sci_french
+                        text: "French"
+                        size_hint_x: 0.3
+
+                    MDSegmentedControlItem:
+                        id: _sci_english
+                        text: "English"
+                        size_hint_x: 0.3
+
+

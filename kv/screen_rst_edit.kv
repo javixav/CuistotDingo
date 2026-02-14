@@ -1,0 +1,52 @@
+ScreenRstEdit:
+    id: _screen_rst_edit
+    name: "screen rst edit"
+    fullscreen: True
+
+    MDBoxLayout:
+        id: _rst_edit_box
+        orientation: "vertical"
+        spacing: "10dp"
+        padding: ["10dp", "70dp","10dp","10dp"]
+
+        ScrollView:
+            id: _rst_edit_scrollview
+
+            TextInput:
+                id: _textinput_edit
+                size_hint_y: None 
+                height: self.minimum_height + _screen_rst_edit.code_h
+                
+        RstDocument:
+            id: _rst_document
+            text: _textinput_edit.text
+            size_hint_y: None 
+            rst_edition: False
+            height: _screen_rst_edit.rst_h
+            background_color: app.theme_cls.bg_light
+
+    MDIconButton:
+        icon: "arrow-left"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"top": .99}
+        on_release: 
+            app.manager.screenEditNote.ids._note_box.add_rst(_rst_document, _rst_document.text)
+            app.manager.current = "screen edit note"
+
+    MDIconButton:
+        icon: "help-box-outline"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"center_x": .8, "top": .99}
+        on_release: 
+            if not app.manager.screen_rst_help_loaded: app.manager.load_rst_help_screen()
+            app.manager.current = "screen rst help"
+            app.manager.screenRstHelp.ids._rst_help.scroll_y = 1
+
+    MDIconButton:
+        icon: "arrow-down-bold"
+        md_bg_color: 1, 1, 1, .6
+        x: 12
+        pos_hint: {"center_x": .5, "top": .99}
+        on_release: _screen_rst_edit.backdrop()

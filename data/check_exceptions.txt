@@ -1,0 +1,73 @@
+exception in blablabaal
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\Cuistodingo\main.py", line 6661, in replace_tile
+    tile.ids.image.reload()
+  File "C:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+
+In app.replace_tile , error while trying to reload tile.ids.image.reload() Traceback (most recent call last):
+  File "C:\Users\xavier\Documents\Python\02_Projets\kivy\CuistotDingoMVC\main.py", line 5040, in replace_tile
+    tile.ids.image.reload()
+  File "c:\Users\xavier\AppData\Local\Programs\Python\Python311\Lib\site-packages\kivymd\uix\fitimage\fitimage.py", line 179, in reload
+    self._container.image.reload()
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'image'
+

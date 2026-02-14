@@ -1,0 +1,57 @@
+ScreenA4:
+    name: "screen A4"
+    scroll: _rvscroll
+    md_bg_color: app.main_theme_bg_color
+
+    RVMDBoxLayout:  
+        id: _rvbox_a4
+        orientation: "vertical"
+        rv: _rv_a4
+        rvgrid: _rvgrid
+        spacing: dp(10)
+
+        IngredientSearchField:
+            id: _ingredient_search_a4
+            rv: _rv_a4
+            size_hint: 1, None
+            padding: [0,dp(10),0,0]
+            
+        RV:
+            id: _rv_a4
+            rvtextfield: _ingredient_search_a4.rvtextfield
+            rvbox: _rvbox_a4
+            rvscroll: _rvscroll
+            name: "rv_a4"
+            markup_label_a4: _markup_label_a4
+            orientation: "vertical"
+            size_hint: 0.8, None
+            height: 1
+            opacity: 0
+            padding: [dp(50),0,0,dp(10)]
+            
+        MDLabel:
+            id: _markup_label_a4
+            size_hint: 1, None
+            height: app.separator_padding_y
+            halign: "center"
+            markup: True
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: app.separator_padding_y
+            # we add this fake box to add padding
+
+            MDSeparator:
+                width: dp(8)
+                color: 0,0,0,.4
+                color: app.separator_line_color
+
+        MDScrollView:
+            id: _rvscroll
+
+            MDGridLayout:
+                id: _rvgrid
+                cols: 2
+                spacing: "12dp"
+                padding: ["12dp","12dp","12dp",0]
+                adaptive_height: True

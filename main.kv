@@ -1,0 +1,300 @@
+#: import basename os.path.basename
+#: import ScrollEffect kivy.effects.scroll.ScrollEffect
+#: import join os.path.join
+#: import Window kivy.core.window.Window
+#: import platform kivy.utils.platform
+
+#: set source_image_default join("images","CuistotDingo.png")
+
+# Try to outline some widgets for design purpose
+# ----------------------------------------------
+
+# <widget1>:
+#     canvas:
+#         Color:
+#             rgba: 1,1,1,1 # white color
+#             # rgba: 0,0,1,1 #  blue color
+#         Line:
+#             rectangle: self.x,self.y,self.width,self.height
+#             dash_offset: 2
+#             dash_length: 5
+
+# ----------------------------------------------------------------------
+
+
+##############################################################################################################
+########################################      Appbar  Rules      ###################################################
+##############################################################################################################
+
+<ItemMenu>:
+    appbar: app.appbar
+    halign: "center"
+    font_style: app.font_style_menu
+    markup: True
+    text: "[ref]self.text[/ref]"
+    on_touch_down: self.label_click(*args)
+
+<SearchField>:
+    text_color_normal: app.text_searchfield_color_normal
+    text_color_focus: app.text_searchfield_color_focus
+    line_color_normal : app.line_searchfield_color_normal
+    line_color_focus : app.line_searchfield_color_focus
+    hint_text_color_normal: app.hint_searchfield_color_normal
+    hint_text: app.current_lang["searchfield_hint_text"][0] if not self.text else ""
+
+##############################################################################################################
+########################################      Screen  Rules      ###################################################
+##############################################################################################################
+
+<MyMDScreen>:
+    on_pre_leave:
+        app.manager.previous_screen = self.name
+        app.manager.set_previous_screen_navigation()
+
+    on_pre_enter:
+        if app.manager.previous_screen != "screen E1" : \
+        self.scroll.scroll_y = 1
+        
+        if self.name == "screen C1": app.manager.screenPicture.subdir = "notes"
+        elif self.name in ["screen A0", "screen A4", "screen A5"] : app.manager.screenPicture.subdir = "recipes"
+
+        if self.name == "screen D1" : app.copy_season_files()
+        
+<ScreenNote, ScreenRstEdit, ScreenPicture, MDScreen>:
+    on_pre_leave:
+        app.manager.previous_screen = self.name
+
+<MDScrollView>:
+    effect_cls: "ScrollEffect"
+
+##############################################################################################################
+########################################      Pictures Rules      ###################################################
+##############################################################################################################
+
+
+##############################################################################################################
+########################################      Speed Rules      ###################################################
+##############################################################################################################
+
+<SpeedLabel@MDLabel>:
+    halign: "right"
+    pos_hint: {"center_y": .5}
+    theme_text_color: "Custom"
+    text_color: app.speed_label_color
+
+##############################################################################################################
+########################################      Sceen Notes Rules      ###################################################
+##############################################################################################################
+
+<NoteStackLayout>:
+    spacing: "15dp"
+
+<Note>:
+    elevation: 1
+    orientation: "vertical"
+    style: 'elevated'
+    size_hint: 1,None
+    adaptive_height: True
+    padding: "15dp"
+    spacing: "20dp"
+    md_bg_color: app.unselected_note_color
+
+
+    MDLabel:
+        id: card_title
+        size_hint_y: None
+        pos: 0, root.height - dp(5)
+        text: root.title
+        color: "black"
+        size: self.texture_size
+        text_size: self.width, None
+        
+    MDLabel:
+        id: card_description
+        size_hint_y: None
+        pos: 0, root.height - card_title.height - dp(5)
+        text: root.description
+        color: "grey"
+        size: self.texture_size
+        text_size: self.width, None
+
+<NoteField>:
+    hint_text_color_normal: app.hint_textfield_color
+    line_color_normal: app.line_textfield_note_color_normal
+    line_color_focus: app.line_textfield_color_focus
+    helper_text_color_focus: app.helper_textfield_color_focus
+    text_color_normal: app.text_textfield_color_normal
+
+##############################################################################################################
+########################################      Settings Rules      ###################################################
+##############################################################################################################
+
+<ConfigBoxField>:
+    adaptive_height: True
+    padding: [dp(10),dp(0),dp(10),dp(0)]
+    label_hint_x_config: 0.6
+    field_hint_x_config: 0.4
+    spacing: "15dp"
+
+    MDLabel:
+        id: _configbox_label
+        size_hint_x: root.label_hint_x_config
+        text: root.label_text_config
+        theme_text_color: "Custom"
+        text_color: app.text_label_color
+    SettingsField:
+        id: _configbox_field
+        size_hint_x: root.field_hint_x_config
+        text: root.input_text_config
+        input_filter: root.input_filter
+        helper_text: app.current_lang["config"][39] if self.focus else ""
+        helper_text_color_focus: app.helper_textfield_color_focus
+        line_color_normal: app.line_textfield_color_normal
+        line_color_focus: app.line_textfield_color_focus
+        text_color_normal: app.hint_textfield_color
+        on_text_validate: 
+            app.configbox = root
+            app.rule_validate(root.function_code_config,self.text)
+        on_kv_post:
+            Clock.schedule_once(partial(app.delay_focus_true, self), .0)
+
+<DialogHelpContent>:
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    #height: Window.height * 0.6 if platform == "android" else Window.height*0.6
+    height: Window.height * 0.6
+    width: Window.width * 0.6
+
+    MDScrollView:
+        adaptive_height: True
+        MDLabel:
+            text: root.text_content
+            adaptive_height: True
+            markup: True
+
+<ItemConfirm>:
+    on_release: 
+        root.set_icon(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
+        on_release: 
+            app.font_style_checkbox = root.text
+
+##############################################################################################################
+########################################      Other Rules      ###################################################
+##############################################################################################################
+
+<IngredientSearchField>:
+    height: _rv_textfield.height
+    rvtextfield: _rv_textfield
+    icon_color: app.theme_cls.primary_color
+    
+    RVMDTextField:
+        id: _rv_textfield
+        rv: root.rv
+        size_hint: 0.9, None
+        pos_hint: {"center_x": .5}
+        hint_text: app.current_lang["rv_texfield"]
+        padding: [0,0,0,dp(10)]
+        hint_text_color_normal: app.hint_textfield_color
+        helper_text_color_normal: app.helper_textfield_color_normal 
+        line_color_normal: app.line_textfield_color_normal
+        text_color_normal: app.text_textfield_color_normal
+
+    MDIconButton:
+        id: _close_rv_textfield
+        _no_ripple_effect: True
+        opacity: 0 if _rv_textfield.text == "" else 1
+        disabled: True if _rv_textfield.text == "" else False
+        icon: "close"
+        icon_size: "24sp"
+        md_bg_color: 1, 1, 1, .0
+        pos: _rv_textfield.width -dp(20), _rv_textfield.y + (_rv_textfield.height-10)/2 -dp(18)
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        on_release: 
+            _rv_textfield.text = ""
+            _rv_textfield.focus = True
+
+<MyMDGridLayout@MDGridLayout>:
+    cols: 2
+    spacing: "12dp"
+    padding: ["12dp","12dp","12dp",0]
+    adaptive_height: True
+
+<MyMDSmartTile>:
+    radius: 24
+    box_radius: 0, 0, 24, 24
+    box_color: 0, 0, 0, .5
+    size_hint: 1, None
+    height: "160dp"
+    mipmap: True
+    _no_ripple_effect: True # get rid of the ripple effect
+    
+    MDLabel:
+        text: root.text
+        bold: True
+        font_style: app.font_style_tile
+        opposite_colors: True
+
+<RVMDLabel>:
+    on_touch_down: self.label_click(*args) # In kv lang ok, in py lang not ok.
+    theme_text_color: "Custom"
+    text_color: app.text_label_color
+
+<RV>:
+    canvas:
+        Color:
+            rgba: app.rvbox_rectangle_color
+        Line:
+            group: "rectangle"
+            rectangle: self.x +50 , self.y +2, self.width - 100, self.height -2
+
+<DialogNoteContent>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "70dp"
+
+    MDTextField:
+        id: _dialog_field
+        hint_text: app.current_lang["dialog"][1]
+        on_text_validate: 
+            app.manager.screenEditNote.ids._note_box.create_title_note(self,\
+            app.manager.screenEditNote.ids._note_box.content_cls, \
+            app.manager.screenEditNote.ids._note_box.dialog)
+
+##############################################################################################################
+########################################      Icon-Button Rules      ###################################################
+##############################################################################################################
+
+<CloseIconButton>:
+    theme_icon_color: "Custom"
+    icon_color: app.close_textfield_icon_color
+
+<MyMDFillRoundFlatIconButton>:
+    font_size: app.font_size_button_ingredient
+
+<UnselectNoteIcon>:
+    theme_icon_color: "Custom"
+    icon_color: app.unselect_icon_button_color
+
+##############################################################################################################
+########################################        Start      ###################################################
+##############################################################################################################
+
+
+RootLayout:
+    id: _root
+    orientation: "vertical"
+
+    
+
+    
+        
+
+
+
+

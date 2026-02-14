@@ -1,0 +1,55 @@
+#: import config_input config.config_input
+#: import platform kivy.utils.platform
+#: import Clock kivy.clock.Clock
+#: import partial functools.partial
+
+ScreenD4:
+    id: _screen_d4
+    name: "screen D4"
+    scroll: _scrollD4
+    md_bg_color: app.main_theme_bg_color
+
+    MDScrollView:
+        id: _scrollD4
+
+        MDBoxLayout:
+            orientation:"vertical"
+            #size_hint_x: 0.8 # to have MdSwitch visible
+            adaptive_height: True
+            padding: [dp(10),dp(20),dp(10),dp(20)]
+            spacing: "15dp"
+            
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][18]
+                button_text_config: app.current_lang["config"][30]
+                function_code_config: "recipes_backup"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][19]
+                button_text_config: app.current_lang["config"][31]
+                function_code_config: "notes_backup"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][20]
+                button_text_config: app.current_lang["config"][32]
+                function_code_config: "ingredients_backup"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][21]
+                button_text_config: app.current_lang["config"][33]
+                function_code_config: "load_recipes_data"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][22]
+                button_text_config: app.current_lang["config"][34]
+                function_code_config: "load_notes_data"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][23]
+                button_text_config: app.current_lang["config"][35]
+                function_code_config: "load_ingredients_data"
+
+            ConfigBoxButton:
+                label_text_config: app.current_lang["config"][24]
+                button_text_config: app.current_lang["config"][36]
+                function_code_config: "load_saison_data"

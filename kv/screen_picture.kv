@@ -1,0 +1,106 @@
+#: import join os.path.join
+
+<LoadPictureIcon@MDIconButton>:
+    icon_active: (0.13, 0.58, 0.95, 0.8)
+    _no_ripple_effect: False
+
+    canvas.before:
+        Color:
+            rgba: self.icon_active 
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+<CameraShootButton>:
+    markup: True
+    text: u"[font=images/pic_icon.ttf]\ue800[/font]"
+    icon_color: (0.13, 0.58, 0.95, 0.8)
+    _down_color: self.darker(self.icon_color)
+
+    canvas.before:
+        Color:
+            rgba: self.icon_color if self.state == 'normal' else self._down_color
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+    size_hint: None, None
+    size: dp(70), dp(70)
+    font_size: dp(70)/2
+
+<FlashIcons>:
+    markup: True
+    icon_active: (0.13, 0.58, 0.95, 0.8)
+    icon_inactive: (0.43, 0.43, 0.43, 0.8)
+
+    canvas.before:
+        Color:
+            rgba: self.icon_active if self.active else self.icon_inactive
+        Ellipse
+            pos: self.pos
+            size: self.size
+
+    size_hint: None, None
+    size: dp(40), dp(40)
+    font_size: dp(40)/2
+
+<ScreenPicture>:
+    id: _screen_picture
+    name: "picture screen"
+    photo_preview: _preview
+    torch: _torch
+    MDFloatLayout:
+        MyPreview:
+            id: _preview
+            screen: _screen_picture
+        CameraShootButton:
+            pos_hint: {"center_x": .5, "center_y": .2}
+            on_release:
+                _preview.capture_photo(location = "private", subdir = join("images", _screen_picture.subdir), name = _screen_picture.picture_name) # or capture_screenshot()
+
+        LoadPictureIcon:
+            id: _loadpicture_camera
+            icon: "folder-plus-outline"
+            _default_icon_pad: 10
+            icon_size: "30sp"
+            pos_hint: {"center_x":.1, "top":.95}
+            on_release: 
+                app.chooser_start_picture()
+
+        FlashIcons:
+            id: _noflash
+            text: u"[font=images/flash-icons.ttf]\u0062[/font]"
+            pos_hint: {"center_x":.45, "top":.95}
+            active: True
+            on_release: 
+                self.active = True
+                _flash.active = False
+                _autoflash.active = False
+                _preview.flash(state = 'off')
+        FlashIcons:
+            id: _flash
+            text: u"[font=images/flash-icons.ttf]\u0063[/font]"
+            pos_hint: {"center_x":.6, "top":.95}
+            on_release: 
+                self.active = True
+                _noflash.active = False
+                _autoflash.active = False
+                _preview.flash(state = 'on')
+            
+        FlashIcons:
+            id: _autoflash
+            text: u"[font=images/flash-icons.ttf]\u0064[/font]"
+            pos_hint: {"center_x":.75, "top":.95}
+            on_release: 
+                self.active = True
+                _noflash.active = False
+                _flash.active = False
+                _preview.flash(state = 'auto')
+
+        FlashIcons:
+            id: _torch
+            text: u"[font=images/torch.ttf]\u0061[/font]"
+            pos_hint: {"center_x":.9, "top":.95}
+            on_release: 
+                self.active = False if self.active else True
+                _preview.torch(state = 'on') if self.active else _preview.torch(state = 'off')

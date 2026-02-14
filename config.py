@@ -1,0 +1,31 @@
+config_input = {
+    "size_hint_appbar": 0.1,
+    "size_hint_navigation": 0.1,
+    "max_ingredient": 2,
+    "ingredient_max_calcul": True,
+    "main_md_bg_color": [
+        0.12941176470588237,
+        0.5882352941176471,
+        0.9529411764705882,
+        1.0
+    ],
+    "unselected_note_color": "#f8f5f4ff",
+    "selected_note_color": "#f4b5b5ff",
+    "unselect_note_icon_x_win": 32.0,
+    "unselect_note_icon_y_win": 580,
+    "unselect_note_icon_x_android": 64,
+    "unselect_note_icon_y_android": 2088,
+    "search_textfield_y_win": 595.0,
+    "search_textfield_y_android": 2088,
+    "unselect_note_icon_changed_android": "false",
+    "searchfield_icon_changed_android": "true",
+    "tab_bar_h": "24dp",
+    "font_style_menu": "Body2",
+    "font_style_tile": "Body1",
+    "separator_padding_y": "30",
+    "font_size_nav": "14",
+    "center_y_note_item": 0.95,
+    "default_theme": "Black",
+    "language": "English",
+    "ingredient_button": 34
+}

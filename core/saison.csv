@@ -1,0 +1,36 @@
+Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre
+betterave,betterave,betterave,asperge,artichaut,ail,ail,ail,ail,ail,ail,ail
+carotte,carotte,carotte,champignon,asperge,artichaut,artichaut,artichaut,artichaut,betterave,betterave,betterave
+celeri,celeri,celeri,cresson,champignon,asperge,aubergine,aubergine,aubergine,blette,brocoli,carotte
+champignon,champignon,champignon,endive,concombre,aubergine,blette,blette,blette,brocoli,carotte,celeri branche
+chou,chou,chou,epinard,courgette,blette,champignon,champignon,brocoli,carotte,celeri branche,champignon
+chou de bruxelles,chou de bruxelles,chou de bruxelles,fenouil,cresson,brocoli,concombre,concombre,carotte,celeri branche,champignon,chou
+chou fleur,chou fleur,chou fleur,navet,epinard,champignon,courgette,courgette,chou fleur,champignon,chou,chou de bruxelles
+courge,cresson,cresson,oignon,laitue,concombre,fenouil,fenouil,champignon,chou,chou de bruxelles,chou fleur
+cresson,endive,endive,oignon nouveau,navet,courgette,haricot vert,haricot vert,concombre,chou de bruxelles,chou fleur,courge
+endive,epinard,epinard,poireau,oignon nouveau,fenouil,laitue,laitue,courge,chou fleur,courge,cresson
+epinard,mache,navet,radis,petit pois,haricot vert,mais,mais,courgette,concombre,cresson,echalotte
+mache,navet,oignon,pamplemousse,radis,laitue,oignon nouveau,poivron,cresson,courge,echalotte,endive
+navet,oignon,panais,pomme,fraise,oignon nouveau,petit pois,tomate,epinard,courgette,endive,epinard
+oignon,panais,poireau,rhubarbe,pamplemousse,petit pois,poivron,abricot,fenouil,cresson,epinard,mache
+panais,poireau,radis,,rhubarbe,poivron,tomate,cassis,haricot vert,echalotte,fenouil,navet
+poireau,salsifis,kiwi,,,radis,abricot,figue,laitue,endive,mache,oignon
+potiron,topinambour,orange,,,tomate,cassis,framboise,mais,epinard,navet,panais
+salsifis,citron,pamplemousse,,,abricot,cerise,groseille,oignon,fenouil,oignon,poireau
+topinambour,clementine,poire,,,cassis,figue,melon,poireau,haricot vert,panais,potiron
+citron,kiwi,pomme,,,cerise,fraise,mirabelle,poivron,mache,poireau,salsifis
+clementine,mandarine,,,,fraise,framboise,mure,potiron,navet,potiron,topinambour
+kiwi,orange,,,,framboise,groseille,myrtille,tomate,oignon,salsifis,citron
+mandarine,pamplemousse,,,,groseille,melon,nectarine,figue,panais,topinambour,clementine
+orange,poire,,,,melon,myrtille,poire,melon,poireau,chataigne,kiwi
+poire,pomme,,,,pamplemousse,nectarine,pomme,mirabelle,potiron,citron,mandarine
+pomme,,,,,rhubarbe,prune,prune,mure,chataigne,clementine,orange
+,,,,,,,quetsche,myrtille,coing,kiwi,poire
+,,,,,,,,noisette,figue,mandarine,pomme
+,,,,,,,,noix,noisette,noisette,
+,,,,,,,,poire,noix,poire,
+,,,,,,,,pomme,poire,pomme,
+,,,,,,,,prune,pomme,,
+,,,,,,,,quetsche,quetsche,,
+,,,,,,,,raisin,raisin,,
+,,,,,,,,reine claude,,,

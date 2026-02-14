@@ -1,0 +1,138 @@
+#: import Clock kivy.clock.Clock
+
+<ColorPicker>:
+    foreground_color: (1, 1, 1, 1) if self.hsv[2] * root.color[3] < .5 else (0, 0, 0, 1)
+    wheel: wheel
+    BoxLayout:
+        orientation: 'vertical' if root.width < root.height else 'horizontal'
+        spacing: '5sp'
+        StackLayout:
+            orientation: 'tb-lr'
+            size_hint_y: None if root.width < root.height else 1
+            height: sp(33) * 4 if root.width < root.height else self.height
+            canvas:
+                Color:
+                    rgba: root.color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            ColorPicker_Selector:
+                mroot: root
+                text: 'R'
+                clr_idx: 0
+                color: root.color[0]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            ColorPicker_Selector:
+                mroot: root
+                text: 'G'
+                clr_idx: 1
+                color: root.color[1]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            ColorPicker_Selector:
+                mroot: root
+                text: 'B'
+                clr_idx: 2
+                color: root.color[2]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            ColorPicker_Selector:
+                mroot: root
+                text: 'A'
+                clr_idx: 3
+                color: root.color[3]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            ColorPicker_Selector:
+                mroot: root
+                mode: 'hsv'
+                text: 'H'
+                clr_idx: 0
+                color: root.hsv[0]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            ColorPicker_Selector:
+                mroot: root
+                mode: 'hsv'
+                text: 'S'
+                clr_idx: 1
+                color: root.hsv[1]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            ColorPicker_Selector:
+                mroot: root
+                mode: 'hsv'
+                text: 'V'
+                clr_idx: 2
+                color: root.hsv[2]
+                foreground_color: root.foreground_color
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+            BoxLayout:
+                size_hint_y: None if root.width < root.height else 0.125
+                size_hint_x: .5 if root.width < root.height else 1
+                height: '33sp' if root.width < root.height else self.height
+
+                spacing: '2sp'
+                ColorPicker_Label:
+                    mroot: root
+                    text: 'X'
+                    color: root.foreground_color
+                AnchorLayout:
+                    ColorPicker_Input:
+                        id: _colorpicker_input
+                        size_hint_y: None
+                        height: '28sp'
+                        mroot: root
+                        text: str(root.hex_color)
+                        on_text: root.check_text(args[1])
+
+        ColorWheel:
+            id: wheel
+            color: root.color
+            on_color: root.set_color(args[1][:3])
+            
+MDScreen:
+    id: _screen_e1
+    name: "screen E1"
+    md_bg_color: app.main_theme_bg_color
+        
+    # because on_pre_leave comes after on_pre_enter screen D1
+    on_enter: app.manager.previous_screen = self.name
+        
+    MDBoxLayout:
+        padding: [dp(0),dp(80),dp(0),dp(0)]
+        MyColorPicker:
+            id: _colorpicker
+    MDIconButton:
+        icon: "arrow-left"
+        md_bg_color: 1, 1, 1, .6
+        x: 24
+        pos_hint: {"top": .99}
+        on_release: 
+            app.manager.transition.direction = "down"
+            app.manager.restore_screen()
+            _colorpicker.change_picker_color(_colorpicker.hex_color)
+            app.manager.current = "screen D2"

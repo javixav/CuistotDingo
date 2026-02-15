@@ -1,6 +1,8 @@
 # CuistotDingo
 A minimalist kivy app, that allows you to save recipes, search by name, take notes, find recipes by ingredient, and find recipes depending on what you have in your fridge
 
+<img align="right" height="256" src="https://github.com/javixav/CuistotDingo/images/cuistotdingo.png"/>
+
 ### Dependencies:
 The app was tested on android API 29 with those dependencies (works also on desktop).
 

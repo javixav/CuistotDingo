@@ -39,7 +39,7 @@ public int startType() {
   In the TopApp bar, you'll find a magnifying glass icon that allows you to filter recipes by name.
 
 ## About the code and author
-  The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community to improve it and enjoy it.
+  The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community to improve it and enjoy it. Some word are in french because it is my native language and english is not my strength.
 
 ## Contributing
 I'' be happy if you want to contribute : still there is a lot to do to improve the app like :

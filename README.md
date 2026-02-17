@@ -50,7 +50,7 @@ Because widget creation is time consuming, I tried the lazzy loading method that
   The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community improve it and enjoy it. Some word are in french because it is my native language and english is not my strength. The java code and android related code took me a lot of time to make it work (like taking picture and saving to SharedStorage, opening intents, getting uris the right way..), why, because Android is so verbose and difficult for a non android developper.
 
 ### Reach me
-    You can reach me from the kivy Discord channel (nickname : @javixav)
+You can reach me from the kivy Discord channel (nickname : @javixav)
 
 ## Contributing
 I'll be happy if you want to contribute : still there is a lot to do to improve the app like :  

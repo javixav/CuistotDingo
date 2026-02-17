@@ -20,8 +20,7 @@ The app was tested on android API 29 with those dependencies (works also on desk
 
 ### How to install
 1. You need to generate the apk file with buildozer. Follow procedure [here](https://www.youtube.com/watch?v=BDdQJ0zHSW0)
-2. When you'll generate the first apk, you need to edit the AndroidManifest.tmpl.xml file located in \.buildozer\android\platform\build-arm64-v8a\dists\cuistotdingov24\templates\AndroidManifest.tmpl.xml and add android:requestLegacyExternalStorage="true" to the <application tag
-   This ensure that you will be able to have Write access to android storage. Then if you want you're app not to be killed when memory is needed, or at least rebuild your app id it was killed by android, you'll need to open PythonService.java loacated in
+2. When you'll generate the first apk, you need to edit the AndroidManifest.tmpl.xml file located in \.buildozer\android\platform\build-arm64-v8a\dists\cuistotdingov24\templates\AndroidManifest.tmpl.xml and add android:requestLegacyExternalStorage="true" to the <application tag.This ensure that you will be able to have Write access to android storage. Then if you want you're app not to be killed when memory is needed, or at least rebuild your app if it was killed by android, you'll need to open PythonService.java loacated in
 .buildozer\android\platform\build-arm64-v8a\dists\cuistotdingov24\src\main\java\org\kivy\android\PythonService.java
 
 and change START_NOT_STICKY to START_STICKY
@@ -41,16 +40,16 @@ public int startType() {
   In the TopApp bar, you'll find a magnifying glass icon that allows you to filter recipes by name.
 
 ## About the code and author
-  The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community to improve it and enjoy it. Some word are in french because it is my native language and english is not my strength.
+  The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community improve it and enjoy it. Some word are in french because it is my native language and english is not my strength.
 
 ## Contributing
-I'' be happy if you want to contribute : still there is a lot to do to improve the app like :
+I'll be happy if you want to contribute : still there is a lot to do to improve the app like :
     - make the last seen note be at the top
     - check saison.csv translate for english versions...
-    - make the app IOS compatible thanks to https://kivyschool.com/kivy-on-ios/ and https://kivy.org/doc/stable/guide/packaging-ios.html
-    - check android api compatibility
-    - Add to each recipe, the data ingredients quantity
-    - reset all ingredients in stack screen.
+    - make the app IOS compatible thanks to [kivyschool](https://kivyschool.com/kivy-on-ios/) and [kivy-ios](https://kivy.org/doc/stable/guide/packaging-ios.html)
+    - check android api compatibility, this one is compatible with Api 29, the one I use for the tests, if you know a way to test it for others api or make it compatible, be my guest. 
+    - Add to each recipe, the data ingredients quantity : The ingredient quantity are in the corpus of the recipe, a big improvement would be to make it independent.
+    - add an icon to reset all ingredients in stack screen.
     - Make code smarter : Factorize code, Check for unused code, make it prettier and faster.
 
 

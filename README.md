@@ -45,7 +45,7 @@ public int startType() {
 ## Contributing
 I'll be happy if you want to contribute : still there is a lot to do to improve the app like :  
     - make the last seen note be at the top  
-    - check saison.csv translate for english versions...  
+    - check if evrything is translated for english version and french version...  
     - make the app IOS compatible thanks to [kivyschool](https://kivyschool.com/kivy-on-ios/) and [kivy-ios](https://kivy.org/doc/stable/guide/packaging-ios.html)  
     - check android api compatibility, this one is compatible with Api 29, the one I use for the tests, if you know a way to test it for others api or make it compatible, be my guest.  
     - Add to each recipe, the data ingredients quantity : The ingredient quantity are in the corpus of the recipe, a big improvement would be to make it independent.  

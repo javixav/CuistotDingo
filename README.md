@@ -30,7 +30,7 @@ public int startType() {
 4. Rebuild the app doing buildozer -v android debug and install the new apk generated.
 
 ## About the app
-  The home screen is the screen A1, where are shown recipes that you can cook from what you have in your fridge. You can then navigate to the screen called A2, that shows recipes that you can cook with one more ingredient. The screen A3 is the screen where you can see all your recipes. For performance purpose and because rendering a lot of widget, images, is time consuming I tried to divide the number of visible recipes. The A4 screen is the screen where you can find a recipe depending on what ingredient you wanna cook. The A5 screen is the screen where you can add a new recipe.
+  I wanted to make this app free from internet, every data is hard coded, there are no fetch functions. The home screen is the screen A1, where are shown recipes that you can cook from what you have in your fridge. You can then navigate to the screen called A2, that shows recipes that you can cook with one more ingredient. The screen A3 is the screen where you can see all your recipes. For performance purpose and because rendering a lot of widget, images, is time consuming I tried to divide the number of visible recipes. The A4 screen is the screen where you can find a recipe depending on what ingredient you wanna cook. The A5 screen is the screen where you can add a new recipe.
   You can take picture, piture image is downgraded for performance purpose, but you can still view the full screen image with a good resolution thanks to java and opening an intent with google picture.
   
   Screen B1 is opened clicking in the navigation bar ans is the Stock screen where you can edit you're sotck ingredient.

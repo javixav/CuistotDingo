@@ -32,7 +32,10 @@ public int startType() {
 ## About the app
 ### Some context
   I decided to make this app, just after learning a bit of python, and because I always wanted to store personal recipes in my phone, experiment recipes. I wanted to make this app free from internet, every data is hard coded, there are no fetch functions.
-  
+
+### Data input
+    The data recipes input is in french, you can modify the file, delete, translate, as you want.
+
 ### Screen details
   The home screen is the screen A1, where are shown recipes that you can cook from what you have in your fridge. You can then navigate to the screen called A2, that shows recipes that you can cook with one more ingredient. The screen A3 is the screen where you can see all your recipes. For performance purpose and because rendering a lot of widget, images, is time consuming I tried to divide the number of visible recipes. The A4 screen is the screen where you can find a recipe depending on what ingredient you wanna cook. The A5 screen is the screen where you can add a new recipe.
   You can take picture, piture image is downgraded for performance purpose, but you can still view the full screen image with a good resolution thanks to java and opening an intent with google picture.
@@ -50,7 +53,7 @@ Because widget creation is time consuming, I tried the lazzy loading method that
   The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community improve it and enjoy it. Some word are in french because it is my native language and english is not my strength. The java code and android related code took me a lot of time to make it work (like taking picture and saving to SharedStorage, opening intents, getting uris the right way..), why, because Android is so verbose and difficult for a non android developper.
 
 ### Reach me
-You can reach me from the kivy Discord channel (nickname : @javixav)
+You can reach me from the kivy Discord channel (nickname : @rabi lopez)
 
 ## Contributing
 I'll be happy if you want to contribute : still there is a lot to do to improve the app like :  

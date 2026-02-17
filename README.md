@@ -4,7 +4,7 @@ A minimalist kivy app, that allows you to save recipes, search by name, take not
 <img align="right" height="256" src="https://github.com/javixav/CuistotDingo/tree/main/images/CuistotDingo.png"/>
 
 ### Dependencies:
-The app was tested on android API 29 with those dependencies (works also on desktop).
+The app was tested on android API 29 with those dependencies (works also on desktop tested on Winwdows 10).
 
 - [Kivy](https://github.com/kivy/kivy) = 2.3.1 ([Installation](https://kivy.org/doc/stable/gettingstarted/installation.html))
 - [Python 3.7+](https://www.python.org/)
@@ -43,14 +43,14 @@ public int startType() {
   The app's main code and app structure is a bit messy as you'll see if you analyse it deeply or not... Why because it is my first python project, and fist programming project and I'm not a professionnal developer, just a cook that wanted to record nice recipes. To this point it took me like 5 years or more to develop this app (yeaah I know), but I am glad I can publish it in open source and let the community improve it and enjoy it. Some word are in french because it is my native language and english is not my strength.
 
 ## Contributing
-I'll be happy if you want to contribute : still there is a lot to do to improve the app like :
-    - make the last seen note be at the top
-    - check saison.csv translate for english versions...
-    - make the app IOS compatible thanks to [kivyschool](https://kivyschool.com/kivy-on-ios/) and [kivy-ios](https://kivy.org/doc/stable/guide/packaging-ios.html)
-    - check android api compatibility, this one is compatible with Api 29, the one I use for the tests, if you know a way to test it for others api or make it compatible, be my guest. 
-    - Add to each recipe, the data ingredients quantity : The ingredient quantity are in the corpus of the recipe, a big improvement would be to make it independent.
-    - add an icon to reset all ingredients in stack screen.
-    - Make code smarter : Factorize code, Check for unused code, make it prettier and faster.
+I'll be happy if you want to contribute : still there is a lot to do to improve the app like :  
+    - make the last seen note be at the top  
+    - check saison.csv translate for english versions...  
+    - make the app IOS compatible thanks to [kivyschool](https://kivyschool.com/kivy-on-ios/) and [kivy-ios](https://kivy.org/doc/stable/guide/packaging-ios.html)  
+    - check android api compatibility, this one is compatible with Api 29, the one I use for the tests, if you know a way to test it for others api or make it compatible, be my guest.  
+    - Add to each recipe, the data ingredients quantity : The ingredient quantity are in the corpus of the recipe, a big improvement would be to make it independent.  
+    - add an icon to reset all ingredients in stack screen.  
+    - Make code smarter : Factorize code, Check for unused code, make it prettier and faster.  
 
 
 

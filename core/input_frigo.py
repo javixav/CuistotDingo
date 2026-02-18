@@ -44,6 +44,27 @@ mydico_frigo = {
         "beurre": "ingredient",
         "cacahuete": "ingredient",
         "coco": "ingredient",
-        "cacao": "ingredient"
+        "cacao": "ingredient",
+        "farine": "ingredient",
+        "levure": "ingredient",
+        "chocolat": "ingredient",
+        "persil": "ingredient",
+        "lait de coco": "ingredient",
+        "haricot oeil noir": "ingredient",
+        "tahine": "ingredient",
+        "pois chiche": "ingredient",
+        "poireau": "ingredient",
+        "huile de sesame": "ingredient",
+        "vinaigre de riz": "ingredient",
+        "tofu": "ingredient",
+        "vinaigre balsamique": "ingredient",
+        "sirop erable": "ingredient",
+        "tamari": "ingredient",
+        "coriandre": "ingredient",
+        "ail": "ingredient",
+        "tofu mi ferme": "ingredient",
+        "thym": "ingredient",
+        "tomate cerise": "ingredient",
+        "poisson": "ingredient"
     }
 }

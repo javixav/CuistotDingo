@@ -1,4 +1,4 @@
-#kivy 2.2.1
+#kivy 2.3.1
 #kivymd 1.2.0
 # Tested on Android Api 29
 # Buildozer Api to use 33
@@ -3221,6 +3221,7 @@ class MyMDStackLayout(MDStackLayout):
             for ing in self.stack_list_B1:
                 self.add_widget(MyMDFillRoundFlatIconButton(text = ing, font_size = self.app.font_size_button_ingredient))
 
+    @mainthread
     def delete_ingredient(self, button):
         current_screen = self.app.manager.current
         self.remove_widget(button)
@@ -3233,7 +3234,9 @@ class MyMDStackLayout(MDStackLayout):
             self.stack_list_A5.remove(button.text)
             self.app.manager.screenA0.tile_A0.ingredients.remove(button.text)
 
+    @mainthread
     def add_ingredient(self,ing): # n beeing the node
+        ''' here mainthread is needed otherwise changes are not made to the screen when coming from A0 to A5 '''
         current_screen = self.app.manager.current
 
         if current_screen in ["screen B1", "screen D4"]:
@@ -5794,7 +5797,7 @@ class CuistotDingoApp(MDApp):
         self.manager.transition.direction = "left"
 
     def nb_recipe_returned(self, nb_match):
-        ''' Change the number of string match when using home_made function to search a recipe '''
+        ''' Change the number of string match when using home made function to search a recipe '''
         nb_recipes = len(recettes["recipes"])
         if nb_recipes < nb_match :
             nb_match = nb_recipes

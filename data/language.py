@@ -7,6 +7,7 @@ Quelques infos sur l'application : c'est une application basique qui se veut min
 Dans le menu config, les champs input text doivent être validés par entrée.\n
 Dans le menu Learn, ou Notes, tu pourras insérer du texte RST.\n
 Pour le modifier il te suffira de double cliquer dessus.\n
+Pour quitter le mode capture de photo, il suffit de double cliquer sur l'image.\n
 Les recettes filtrées par ingrédients sont filtrées par rapport à la base de données complète.\n
 Les données ont été reccueillie au fil des années, au fil des expériences culinaires, 
 il se peut qu'il y ait des coquilles, que tu pourras modifier.
@@ -26,6 +27,7 @@ HELP_EN = '''
 Some information about the application: it's a basic, minimalist application.\n
 In the settings menu, the input text fields must be validated by pressing Enter.\n 
 In the Notes menu, you can insert restructured text. To edit it, simply double-click on it.\n
+To exit capture picture, simply double-click on the screen.\n
 Recipes filtered by ingredients are filtered within the complete database.\n
 The original recipes dataset has been collected over the years, through culinary 
 experiences, there may be some errors, which you can correct.

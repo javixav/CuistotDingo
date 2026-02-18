@@ -56,7 +56,8 @@ Because widget creation is time consuming, I tried the lazzy loading method that
 You can reach me from the kivy Discord channel (nickname : @rabi lopez)
 
 ## Contributing
-I'll be happy if you want to contribute : still there is a lot to do to improve the app like :  
+I'll be happy if you want to contribute : still there is a lot to do to improve the app like : 
+    - improve if necessary the string match method called home_made (in folder function file matchers.py)
     - make the last seen note be at the top  
     - check if evrything is translated for english version and french version...  
     - make the app IOS compatible thanks to [kivyschool](https://kivyschool.com/kivy-on-ios/) and [kivy-ios](https://kivy.org/doc/stable/guide/packaging-ios.html)  

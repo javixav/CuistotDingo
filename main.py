@@ -21,6 +21,7 @@ from data.language import lang_en, lang_fr
 from data.codes  import CODE_INGREDIENTS, CODE_RECIPES, CODE_NOTES
 from functions.foreground import hex_to_rgba, rgba_to_hex
 from functions.matchers import home_made, DiffSequenceMatcher
+import docutils
 
 #kivy library
 from kivy.utils import platform
@@ -1125,7 +1126,7 @@ class ScreenPicture(MDScreen):
         except FileNotFoundError:
             # there is no app folder so we create it,
             log("--- creating folder app for strorage purpose : " + join(app_storage_path(), "app","images",subdir))
-            makedirs(join(app_storage_path(), "app","images",subdir))
+            makedirs(join(app_storage_path(), "app","images",subdir), exist_ok = True)
             replace(source,dest)
 
     @mainthread # on mainthread to avoid the two screen merging.
@@ -1134,7 +1135,7 @@ class ScreenPicture(MDScreen):
 
     @mainthread
     def close_camera(self):
-        if not self.app.A5_edition:
+        if not self.app.A5_edition and self.app.manager.current != "screen edit note":
             self.app.manager.restore_screen()
         if platform in ["android", "ios"]:
             self.deviceOrientation.sensorEnable(False)
@@ -1391,7 +1392,7 @@ class MyPreview(Preview):
         self.screen.change_screen_to_previous()
         self.screen.close_camera()
         self.disconnect_camera()
- 
+
 class CameraShootButton(ButtonBehavior, Label):
 
     def darker(self, color, factor=0.5):
@@ -1949,6 +1950,13 @@ class Note(MDCard, CommonElevationBehavior, TouchBehavior):
         Clock.schedule_once(self.delay_notes_count, 0.1)
     
     def load_note(self):
+        if config_input["default_theme"] == "Black":
+            self.app.mdbg_screen_edit_note = self.app.main_theme_bg_color
+            self.app.text_notefield_color_normal = self.app.white_rgba_80
+            self.app.item_icon_button_color = self.app.white_rgba_80
+            self.app.separator_line_color = self.app.white_rgba_38
+            self.app.line_textfield_note_color_normal = self.app.main_theme_bg_color
+
         for item in note_data[self.title]["data"]:
             widget_type = item[0]
 
@@ -1961,11 +1969,24 @@ class Note(MDCard, CommonElevationBehavior, TouchBehavior):
                 self.app.manager.screenEditNote.ids._note_box.add_widget(TitleFieldBox(title = text))
 
             elif "RstBox" in widget_type:
+                ''' because the md_bg of the emphasis text is hard to change, maybe not possible, 
+                we change the  background rst screen edit note color '''
+                
+                self.app.mdbg_screen_edit_note = self.app.white_rgba_default
+                self.app.text_notefield_color_normal = self.app.black_rgba_80
+                self.app.item_icon_button_color = self.app.black_rgba_80
+                self.app.separator_line_color = self.app.black_rgba_38
+                self.app.line_textfield_note_color_normal = self.app.white_rgba_theme
+
+                self.app.set_default_rst_colors()
+
                 text = item[1]
                 widget = RstBox(text = text)
                 widget.children[0].colors["paragraph"] = self.app.rstbox_paragraph_color
                 widget.children[0].colors["title"] = self.app.rstbox_title_color
                 widget.children[0].colors["bullet"] = self.app.rstbox_bullet_color
+                widget.children[0].colors["background"] = self.app.rstbox_background_color
+                
                 self.app.manager.screenEditNote.ids._note_box.add_widget(widget)
 
             elif "Picture" in widget_type:
@@ -2229,6 +2250,8 @@ class NoteBoxLayout(MDBoxLayout):
             rst.rst_edition = False
             rst.rst_edited.text = rst_text
 
+        rst.render()
+
     def calculate_notebox_picture(self):
         n = 0
         for item in self.children[::-1]:
@@ -2324,12 +2347,8 @@ class NoteBoxLayout(MDBoxLayout):
                     try:
                         copyfile(source_path, dest)
                     except FileNotFoundError:
-                        log("there is no data backup images folder so we create it")
-                        # there is no app folder so we create it,
-                        makedirs(backup_dir)
-                        copyfile(source_path, dest)
-                        log("--------- backup list file are : " + str(self.app.java_list_files(backup_dir)))
-                
+                        log("there is no file")
+
                 # 2. remove the picture from private
                 if platform in ["android", "ios"]:
                     private_path = join(DIR_APP_PRIVATE,source_path)
@@ -2467,6 +2486,7 @@ class MyRstDocument(RstDocument, TouchBehavior):
         self.colors['paragraph']= self.app.rstbox_paragraph_color
         self.colors["title"]= self.app.rstbox_title_color
         self.colors["bullet"]= self.app.rstbox_bullet_color
+        self.colors["background"]= self.app.rstbox_background_color
 
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
@@ -2941,7 +2961,7 @@ class RVMDTextField(MDTextField):
 
             # ensure the size is okay
             # Warning minimum heigth is required to detect click smoothly
-            self.rv.height = Window.height/3
+            self.rv.height = Window.height/3 - 20
 
             # display the data
             if not self.changed_by_click: # needed to not change the data rv when comes from click
@@ -2980,7 +3000,6 @@ class SaveRecipeButton(MDRectangleFlatIconButton):
                 self.app.manager.screenA5.ids._rvscroll_a5.scroll_y = self.app.manager.screenA5.ids[field].y / self.app.manager.screenA5.ids._rvbox_a5.height
                 self.required_field_completed = False
                 return toast(self.app.current_lang["toast"][1])
-        self.required_field_completed = True
 
         # 3. ensure ingredient stack is not empty :
         # and check if new ingredient and add it to dico that stores all ingredients
@@ -2992,9 +3011,12 @@ class SaveRecipeButton(MDRectangleFlatIconButton):
                 recipes[4][ingredient] = {"title": str(ingredient)}
 
         if ingredients == []:
+            self.app.manager.screenA5.ids["_ingredient_search_a5"].ids._rv_textfield.error = True
             self.app.manager.screenA5.ids["_rvscroll_a5"].scroll_y = self.app.manager.screenA5.ids["_stack_a5"].y / self.app.manager.screenA5.ids["_rvbox_a5"].height
-            self.app.manager.screenA5.ids["_ingredient_search_a5"].error = True
+            self.required_field_completed = False
             return toast(self.app.current_lang["toast"][2])
+
+        self.required_field_completed = True
 
         # 4. Store the new recipe
         if self.app.A5_edition : 
@@ -3100,7 +3122,7 @@ class SaveRecipeButton(MDRectangleFlatIconButton):
                     children.nb_personne = nb_personne
                     children.ingredients = ingredients
  
-        elif len(missing) == 1 and self.app.A5_edition :
+        # we reload screen A2 in case the missing ingredient was deleted
             self.app.manager.reload_recipes_screens(["screen A2"])
 
         # A3
@@ -3244,10 +3266,11 @@ class MyMDStackLayout(MDStackLayout):
                 # calculate index by inserting ing to stack list at the right place
                 index = len(self.stack_list_B1) - self.insert_sorted(self.stack_list_B1, ing)
                 self.add_widget(MyMDFillRoundFlatIconButton(text = ing, font_size = self.app.font_size_button_ingredient), index)
+                # self.add_widget(MyMDFillRoundFlatIconButton(text = ing, font_size = self.app.font_size_button_ingredient), index, canvas = "after")
 
             if ing not in mydico_frigo["ingredients"] :
                 mydico_frigo["ingredients"][ing] = "ingredient"
-                Clock.schedule_once(self.actualize_recipe, 0)
+                Clock.schedule_once(self.actualize_recipe, 0.4)
                 
         if current_screen == "screen A5": 
             ''' here in A5 the core is not reload in case of new 
@@ -3496,7 +3519,7 @@ class CuistotDingoApp(MDApp):
     font_style_checkbox = ""
     configbox = ObjectProperty()
     center_y_note_item = NumericProperty(config_input["center_y_note_item"])
-    font_size_button_ingredient = NumericProperty(float(config_input["ingredient_button"]))
+    font_size_button_ingredient = 22 if platform in ["win","macos","linux","unknown"] else NumericProperty(float(config_input["ingredient_button"]))
     size_hint_appbar = NumericProperty(config_input["size_hint_appbar"])
     size_hint_navigation = NumericProperty(config_input["size_hint_navigation"])
 
@@ -3520,6 +3543,7 @@ class CuistotDingoApp(MDApp):
     color_pink = ColorProperty([1.0, 0.396078431372549, 0.8470588235294118, 1.0]) # Not used for now  
     
     text_textfield_color_normal = ColorProperty([0, 0, 0, 1.0])  
+    text_notefield_color_normal = ColorProperty([0, 0, 0, 1.0])  
     text_searchfield_color_normal = ColorProperty([1, 1, 1, 0.8])  
     text_searchfield_color_focus = ColorProperty([1, 1, 1, 0.8])  
     line_searchfield_color_normal = ColorProperty([1, 1, 1, 0])
@@ -3535,9 +3559,15 @@ class CuistotDingoApp(MDApp):
 
     close_textfield_icon_color = ColorProperty([1,1,1,1])
 
-    rstbox_paragraph_color = "202020ff"
+    # rstbox_paragraph_color = "202020ff"
+    # rstbox_title_color = "204a87ff"
+    # rstbox_bullet_color = "000000ff"
+    # rstbox_background_color = "262730ff"
+
+    rstbox_paragraph_color = "ffffffcc"
     rstbox_title_color = "204a87ff"
     rstbox_bullet_color = "000000ff"
+    rstbox_background_color = "ffffffcc"
 
     separator_line_color = ColorProperty([0,0,0,0.38])
     item_icon_button_color = ColorProperty([0,0,0,1])
@@ -3562,6 +3592,8 @@ class CuistotDingoApp(MDApp):
     black_rgba_theme = ColorProperty()
     main_theme_bg_color = ColorProperty()
 
+    mdbg_screen_edit_note = ColorProperty()
+
     season_shared_uri = None
     picture_shared_uri = None
 
@@ -3573,6 +3605,7 @@ class CuistotDingoApp(MDApp):
         self.black_rgba_theme = hex_to_rgba(self.hex_dark_mode4)
         self.main_theme_bg_color = self.white_rgba_theme
         self.white_rgba = hex_to_rgba(self.hex_light_mode1)
+        self.mdbg_screen_edit_note = self.white_rgba_default
         self.set_language()
 
         Window.bind(on_keyboard=self.on_key)
@@ -3825,7 +3858,7 @@ class CuistotDingoApp(MDApp):
                                     e = traceback_format_exc()
                                     log("--------cannot copy file  backup_source creating folder-----" + str(e))
                                     # there is no app folder so we create it,
-                                    makedirs(join("images","notes"))
+                                    makedirs(join("images","notes"), exist_ok = True)
                                     copyfile(backup_source, source)
                         except Exception as e:
                             e = traceback_format_exc()
@@ -3837,7 +3870,7 @@ class CuistotDingoApp(MDApp):
                                 e = traceback_format_exc()
                                 # there is no app folder so we create it,
                                 log("---cannot copy file  backup_source creating folder---" + str(e))
-                                makedirs(join("images","notes"))
+                                makedirs(join("images","notes"), exist_ok = True)
                                 copyfile(backup_source, source)
                             
         log("----- end reload note_data_screen  ------- ")
@@ -4096,6 +4129,7 @@ class CuistotDingoApp(MDApp):
                 picture_name = self.manager.screenPicture.picture_name
                 self.source_picture = join("images", subdir, picture_name + ".jpg")
                 copyfile(path,self.source_picture)
+                self.downgrade_image_resolution(self.source_picture, subdir)
                 self.manager.screenPicture.source = self.source_picture
                 self.load_recipe_image()
             
@@ -4766,7 +4800,7 @@ class CuistotDingoApp(MDApp):
         Downsize the image filter (gives the highest quality)
         because pillow buildozer version is max 8.4.0 , module 'PIL.Image' has no attribute 
         'Resampling' so we use the old school Image.LANCZOS 
-        Subdir is here in case we want to personalize the ration for recipes or notes images...
+        Subdir is here in case we want to personalize the ratio for recipes or notes images...
         '''
         
         log("---- Downgrading image -------")
@@ -4903,7 +4937,7 @@ class CuistotDingoApp(MDApp):
                         log("-------------the folder does not exists so we try to create it ----------------")
                         try:
                             log("-------------in copy from_shared creating folder " + join(app_storage_path(), "app", subfolder) + "----------------")
-                            makedirs(join(app_storage_path(), "app", subfolder))
+                            makedirs(join(app_storage_path(), "app", subfolder), exist_ok = True)
                             copyfile(path, destination)
                             log("-------------succeeed to copy to ----------------" + destination)
                         except:
@@ -5240,6 +5274,13 @@ class CuistotDingoApp(MDApp):
                                 Foreground functions
     ##################################################################################'''
 
+    def set_default_rst_colors(self):
+        # change rst color setting
+        self.rstbox_paragraph_color = "202020ff"
+        self.rstbox_title_color = "204a87ff"
+        self.rstbox_bullet_color = "000000ff"
+        self.rstbox_background_color = "ffffffcc"
+
     def segmented_activate(self, txt):
         match txt:
             case "Blue":
@@ -5248,10 +5289,10 @@ class CuistotDingoApp(MDApp):
                 self.manager.screenA3.ids._tabs.change_tabs_color(self.blue_rgba_theme, 
                                                       self.blue_tabs_text_color_active, 
                                                       self.blue_tabs_text_color_inactive)
-                config_input["default_theme"] = "Blue"
 
                 # change screen backgroung
                 self.main_theme_bg_color = self.white_rgba_theme
+                self.mdbg_screen_edit_note = self.white_rgba_default
 
                 # change screen textcolor
                 self.change_screen_text_color(text_label_color = self.black_rgba_80, 
@@ -5272,7 +5313,14 @@ class CuistotDingoApp(MDApp):
                                  line_searchfield_color_focus= self.white_rgba_default,
                                  hint_searchfield_color_normal= self.white_rgba_80,
                                  colorpicker_icon_color = self.black_rgba_default,
-                                 close_textfield_icon_color = self.white_rgba_default)
+                                 close_textfield_icon_color = self.white_rgba_default,
+                                 text_notefield_color_normal = self.black_rgba_80)
+
+                # change rst color setting
+                self.set_default_rst_colors()
+
+                # save config
+                config_input["default_theme"] = "Blue"
 
             case "White":
                 
@@ -5281,10 +5329,10 @@ class CuistotDingoApp(MDApp):
                 self.manager.screenA3.ids._tabs.change_tabs_color(self.white_rgba, 
                                                       self.white_tabs_text_color_active, 
                                                       self.white_tabs_text_color_inactive)
-                config_input["default_theme"] = "White"
-
+            
                 # change screen backgroung
                 self.main_theme_bg_color = self.white_rgba_theme
+                self.mdbg_screen_edit_note = self.white_rgba_default
 
                 # change screen textcolor
                 self.change_screen_text_color(text_label_color = self.black_rgba_80, 
@@ -5305,8 +5353,15 @@ class CuistotDingoApp(MDApp):
                                  line_searchfield_color_focus= self.black_rgba_80,
                                  hint_searchfield_color_normal= self.black_rgba_80,
                                  colorpicker_icon_color = self.black_rgba_default,
-                                 close_textfield_icon_color = self.black_rgba_default)
-                            
+                                 close_textfield_icon_color = self.black_rgba_default,
+                                 text_notefield_color_normal = self.black_rgba_80)
+                
+                # change rst color setting
+                self.set_default_rst_colors()
+
+                # save config
+                config_input["default_theme"] = "White"
+
             case "Black":
                 black_rgba = hex_to_rgba(self.hex_dark_mode4)
                 pink_rgba_hex = rgba_to_hex(1, 0.396078431372549, 0.8470588235294118, 1.0)
@@ -5316,12 +5371,10 @@ class CuistotDingoApp(MDApp):
                 self.manager.screenA3.ids._tabs.change_tabs_color(black_rgba, 
                                                       self.blue_tabs_text_color_active, 
                                                       self.blue_tabs_text_color_inactive)
-                self.rstbox_paragraph_color = "e5e6e9ff"
-                self.rstbox_title_color = "ff65d8ff"
-                self.rstbox_bullet_color = "ce5c00ff"
 
                 # change screen backgroung
                 self.main_theme_bg_color = self.black_rgba_theme
+                self.mdbg_screen_edit_note = self.main_theme_bg_color
 
                 self.change_screen_text_color(text_label_color = self.white_rgba_80, 
                                  text_textfield_color_normal = self.white_rgba_80,
@@ -5341,10 +5394,18 @@ class CuistotDingoApp(MDApp):
                                  line_searchfield_color_focus= self.blue_rgba_theme,
                                  hint_searchfield_color_normal= self.white_rgba_80,
                                  colorpicker_icon_color = self.white_rgba_default,
-                                 close_textfield_icon_color = self.white_rgba_default)
+                                 close_textfield_icon_color = self.white_rgba_default,
+                                 text_notefield_color_normal = self.white_rgba_80)
+
+                # change rst color setting
+                self.rstbox_paragraph_color = "e5e6e9ff"
+                self.rstbox_title_color = "ff65d8ff"
+                self.rstbox_bullet_color = "ce5c00ff"
+                self.rstbox_background_color = "262730ff" # black_rgba_theme
 
                 # save config
                 config_input["default_theme"] = "Black"
+
 
             case "French":
                 self.current_lang = lang_fr
@@ -5389,7 +5450,8 @@ class CuistotDingoApp(MDApp):
                                  line_searchfield_color_focus = [1,1,1,1],
                                  hint_searchfield_color_normal = [1,1,1,1],
                                  colorpicker_icon_color = [0,0,0,1],
-                                 close_textfield_icon_color = [1,1,1,1]):
+                                 close_textfield_icon_color = [1,1,1,1],
+                                 text_notefield_color_normal = [0,0,0,0.8] ):
                                  
 
         self.text_label_color = text_label_color
@@ -5412,6 +5474,7 @@ class CuistotDingoApp(MDApp):
         self.hint_searchfield_color_normal = hint_searchfield_color_normal  
         self.colorpicker_icon_color = colorpicker_icon_color
         self.close_textfield_icon_color = close_textfield_icon_color
+        self.text_notefield_color_normal = text_notefield_color_normal
 
     '''##################################################################################
                                 Others functions
@@ -5435,14 +5498,6 @@ class CuistotDingoApp(MDApp):
 
         if exists(source_after):
             tile.ids.image.source = source_after #$source runtime
-            try :
-                tile.ids.image.reload()
-            except Exception as e:
-                e = traceback_format_exc()
-                log(" erreur in tile.ids.image.reload replace_tile : " + str(e))
-                text_exception = "In app.replace_tile source exists, error while trying" \
-                " to reload tile.ids.image.reload() from source : " + str(source_after) + " : "  + str(e)
-                self.check_exceptions(text_exception)
 
         # unload picture if no matching
         else:
@@ -5630,7 +5685,7 @@ class CuistotDingoApp(MDApp):
             except FileNotFoundError:
                 # there is no app folder so we create it,
                 log("in create backup recipes creating the folder " + join("data","backup") + "for strorage purpose")
-                makedirs(join("data","backup"))
+                makedirs(join("data","backup"), exist_ok = True)
                 copyfile(source, dest)
 
         log(" ----- end create backup recipes ----")
@@ -5662,7 +5717,7 @@ class CuistotDingoApp(MDApp):
             except FileNotFoundError:
                 # there is no app folder so we create it,
                 log("in create_backup_note creating the folder " + join("data","backup") + "for strorage purpose")
-                makedirs(join("data","backup"))
+                makedirs(join("data","backup"), exist_ok = True)
                 copyfile(source, dest)
 
         # 2 : delete backup images files
@@ -5711,7 +5766,7 @@ class CuistotDingoApp(MDApp):
             except FileNotFoundError:
                 # there is no app folder so we create it,
                 log("in create backup ingredients creating the folder " + join("data","backup") + "for strorage purpose")
-                makedirs(join("data","backup"))
+                makedirs(join("data","backup"), exist_ok = True)
                 copyfile(source, dest)
 
         log(" ----- end create backup ingredients ----")

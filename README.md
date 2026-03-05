@@ -22,6 +22,7 @@ A minimalist kivy app, that allows you to save recipes, search by name, take not
 The app was tested on android API 29 with those dependencies (works also on desktop tested on Winwdows 10).
 
 - [Kivy](https://github.com/kivy/kivy) = 2.3.1 ([Installation](https://kivy.org/doc/stable/gettingstarted/installation.html))
+- [KivyMD](https://github.com/kivymd/KivyMD) = 1.2.0
 - [Python 3.7+](https://www.python.org/)
 - [Pillow](https://github.com/python-pillow/Pillow/)
 - [MaterialColor](https://github.com/T-Dynamos/materialyoucolor-python)

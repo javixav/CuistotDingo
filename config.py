@@ -1,7 +1,7 @@
 config_input = {
     "size_hint_appbar": 0.1,
     "size_hint_navigation": 0.1,
-    "max_ingredient": 2,
+    "max_ingredient": 8,
     "ingredient_max_calcul": True,
     "main_md_bg_color": [
         0.12941176470588237,
@@ -22,7 +22,7 @@ config_input = {
     "tab_bar_h": "24dp",
     "font_style_menu": "Body2",
     "font_style_tile": "Body1",
-    "separator_padding_y": "30",
+    "separator_padding_y": "40",
     "font_size_nav": "14",
     "center_y_note_item": 0.95,
     "default_theme": "Black",

@@ -5,13 +5,13 @@ A minimalist kivy app, that allows you to save recipes, search by name, take not
 
 ## Youtube demo
 
-[![CuistotDingo, an app to store recipes](https://img.youtube.com/vi/FmcLHvFpFBU/0.jpg)](https://www.youtube.com)
+
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=FmcLHvFpFBU">
     <img 
         width="600" 
-        src="https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/preview-kitchen-sink.png" 
+        src="https://github.com/javixav/CuistotDingo/blob/main/images/other%20images/CuistotDingo%20-%20original.png" 
         title="Click to watch demo application"
     >
   </a>

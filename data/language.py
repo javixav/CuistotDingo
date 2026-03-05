@@ -41,8 +41,6 @@ Version: [b]24.0.0[/b]
 
 '''
 
-
-
 lang_fr = {"all_titles" : {"screen A": ["Recettes dispo","Avec 1 ingredient en +","Toutes les recettes","Par ingredient","Ajouter recette"],
               "screen B" : ["Mon stock", "Ajouter en swipant"],
               "screen C" : ["Mes notes"],

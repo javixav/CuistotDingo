@@ -4,6 +4,7 @@
 # Buildozer Api to use 33
 
 # requirements=python3, kivy==2.3.1, kivymd==1.2.0, pillow, materialyoucolor, asynckivy, filetype, docutils, camera4kivy, androidstorage4kivy, gestures4kivy, unidecode
+import docutils
 
 '''##################################################################################
                                 Import Modules
@@ -21,7 +22,6 @@ from data.language import lang_en, lang_fr
 from data.codes  import CODE_INGREDIENTS, CODE_RECIPES, CODE_NOTES
 from functions.foreground import hex_to_rgba, rgba_to_hex
 from functions.matchers import home_made, DiffSequenceMatcher
-import docutils
 
 #kivy library
 from kivy.utils import platform
@@ -284,7 +284,7 @@ class MyMDTopAppBar(MDTopAppBar): # see if kv post can be factorized
 
         elif screen_name == "screen A5":
 
-            tooltip = self.app.current_lang["tooltip_text_appbar"][3]
+            tooltip = self.app.current_lang["tooltip_text_appbar"][2]
             self.set_right_actions_appbar(1, 1, False, icon = "trash-can", tooltip_text = tooltip)
 
             if not self.app.manager.screen_a5_loaded: 
@@ -316,6 +316,7 @@ class MyMDTopAppBar(MDTopAppBar): # see if kv post can be factorized
         # screen redirection
         if screen_name == "screen A5": # for screen direction purpose when user modify or create new recipe
             self.app.A5_edition = False
+            self.app.manager.screenA5.unfocus_recipe_field() # unfocus texfield needed... 
         self.menu.dismiss()
 
         # create the invisible tiles for the A4 screen, why here, to optimise time response
@@ -378,7 +379,7 @@ class MyMDTopAppBar(MDTopAppBar): # see if kv post can be factorized
                     self.set_right_actions_appbar(1, 1, False, icon = "magnify", tooltip_text= tooltip)
 
                 elif self.app.manager.current == "screen A5":
-                    tooltip = self.app.current_lang["tooltip_text_appbar"][3]
+                    tooltip = self.app.current_lang["tooltip_text_appbar"][2]
                     self.set_right_actions_appbar(1, 1, False, icon = "trash-can", tooltip_text= tooltip)
                     
                 match self.app.manager.current:
@@ -577,6 +578,7 @@ class MyMDScreenManager(MDScreenManager):
 
     screenPicture = ObjectProperty()
     screenFullPicture = ObjectProperty()
+    screenSeason = ObjectProperty()
 
     index = NumericProperty()
     previous_tile = ObjectProperty()
@@ -786,8 +788,8 @@ class MyMDScreenManager(MDScreenManager):
 
     def load_season_screen(self):
         self.screen_season_loaded = True
-        screen_season = Builder.load_file('screen_season.kv')
-        self.add_widget(screen_season)
+        self.screenSeason = Builder.load_file('screen_season.kv')
+        self.add_widget(self.screenSeason)
 
     @mainthread
     def reload_recipes_screens(self, screens):
@@ -952,7 +954,8 @@ class MyMDScreen(MDScreen):
         ''' called to initialise A5 screen, when leaving A5 screen or pressing the trash button. '''
         self.app.manager.screenA5.tile_A5.ids.image.source = source_image_default
         self.app.manager.screenA5.ids._title_field.text = ""
-        self.app.manager.screenA5.ids._ingredient_search_a5.text = ""
+        self.app.manager.screenA5.ids._ingredient_search_a5.ids._rv_textfield.text = ""
+        self.app.manager.screenA5.ids._clickable_field.ids._ingredient_field.text = ""
         self.app.manager.screenA5.ids._instruction_field.text = ""
         self.app.manager.screenA5.ids._source_field.text = ""
         self.app.manager.screenA5.ids._astuce_field.text = ""
@@ -960,7 +963,30 @@ class MyMDScreen(MDScreen):
         self.app.manager.screenA5.ids._nb_personne_field.text = ""
         self.app.manager.screenA5.ids.type_field.text = ""
         self.app.manager.screenA5.ids._stack_a5.delete_all_stack()
-       
+
+        self.unfocus_recipe_field()
+    
+    def unfocus_recipe_field(self):
+        ''' 
+        This is needed because of a weird behavior when focusing a texfield on screen A5 mode edition
+        when going to screen A5 mode not edition, the focus is still there...
+        So we unfocus "manually".
+        '''
+
+        field_list = [self.app.manager.screenA5.ids._title_field , 
+                      self.app.manager.screenA5.ids._ingredient_search_a5.ids._rv_textfield,
+                      self.app.manager.screenA5.ids._clickable_field.ids._ingredient_field,
+                      self.app.manager.screenA5.ids._instruction_field,
+                      self.app.manager.screenA5.ids._astuce_field,
+                      self.app.manager.screenA5.ids._commentaire_field,
+                      self.app.manager.screenA5.ids._source_field,
+                      self.app.manager.screenA5.ids._nb_personne_field,
+                      self.app.manager.screenA5.ids.type_field
+                     ]
+
+        for widget_instance in field_list:
+            widget_instance.on_focus(widget_instance, False)
+
 class ScreenPicture(MDScreen):
     # screen where camerashoot button belongs
     tile = ObjectProperty()
@@ -1972,13 +1998,13 @@ class Note(MDCard, CommonElevationBehavior, TouchBehavior):
                 ''' because the md_bg of the emphasis text is hard to change, maybe not possible, 
                 we change the  background rst screen edit note color '''
                 
-                self.app.mdbg_screen_edit_note = self.app.white_rgba_default
-                self.app.text_notefield_color_normal = self.app.black_rgba_80
-                self.app.item_icon_button_color = self.app.black_rgba_80
-                self.app.separator_line_color = self.app.black_rgba_38
-                self.app.line_textfield_note_color_normal = self.app.white_rgba_theme
+                # self.app.mdbg_screen_edit_note = self.app.white_rgba_default
+                # self.app.text_notefield_color_normal = self.app.black_rgba_80
+                # self.app.item_icon_button_color = self.app.black_rgba_80
+                # self.app.separator_line_color = self.app.black_rgba_38
+                # self.app.line_textfield_note_color_normal = self.app.white_rgba_theme
 
-                self.app.set_default_rst_colors()
+                # self.app.set_default_rst_colors()
 
                 text = item[1]
                 widget = RstBox(text = text)
@@ -2436,12 +2462,14 @@ class ScreenRstEdit(MDScreen):
     def backdrop(self):
         ''' triggered when user press on the arrow down bold, from screen rst edit
         allow user to see the rst rendering result '''
+
         if self.rst_h > self.code_h: 
             self.code_h = self.height - self.pad
             self.rst_h = self.pad
         else: 
             self.rst_h = self.height - self.pad
             self.code_h = self.pad
+
 
 class NoteField(MDTextField):
     app = ObjectProperty()
@@ -2500,9 +2528,17 @@ class MyRstDocument(RstDocument, TouchBehavior):
                 self.app.manager.screenRstEdit.ids._textinput_edit.text = self.text
                 self.app.manager.screenRstEdit.ids._rst_document.rst_edition = True
                 self.app.manager.screenRstEdit.ids._rst_document.rst_edited = self
+                if config_input["default_theme"] == "Black":
+                    self.app.set_default_rst_colors()
+
                 self.app.manager.screenEditNote.next_screen = "screen rst edit"
                 self.app.manager.current = "screen rst edit"
+                
+                # needed to be load, to make the UI changes effective
+                # self.app.manager.screenEditNote.next_screen = "screen rst edit"
+                # self.app.manager.current = "screen rst edit"
         return super().on_touch_down(touch)
+    
 
 '''##################################################################################
                                 Classes Speed
@@ -2657,14 +2693,12 @@ class MyMDSmartTile(MDSmartTile):
                     self.app.manager.screenA0.tile_A0.ids.image.source = source_image_default # $source runtime
                     self.app.manager.screenA0.tile_A0.ids.image.reload()
                 
-                log(" tile A1 width is : " + str(self.width))
-                log(" tile A1 height is : " + str(self.height))
                 self.app.manager.edit_full_screen()
                 self.app.manager.transition.direction = "up"
                 self.app.manager.current = "screen A0"
 
 class SearchField(MDTextField):
-    starting_no = NumericProperty(3)
+    starting_no = NumericProperty(2)
     app = ObjectProperty()
 
     def __init__(self, *args, **kwargs):
@@ -2821,7 +2855,7 @@ class RVMDLabel(MDLabel):
             self.app.last_ingredient_filtered = self.text
             self.parent.rvtextfield.changed_by_click = True
             self.parent.rvtextfield.text = "" # reset textfield text
-            Clock.schedule_once(self.reset_changed_by_click, 0.1)
+            Clock.schedule_once(self.reset_changed_by_click, .1)
 
             if current_screen == "screen A4": # case when filtering recipes by ingredient
                 self.app.manager.screenA4.search_by_ingredient_triggered = True
@@ -2845,13 +2879,13 @@ class RVMDLabel(MDLabel):
             if current_screen == "screen B1":
                 self.app.manager.screenB1.ids._stack_b1.add_ingredient(self.text) # add button ingredient to stack
 
-            self.restore_rv()
+            Clock.schedule_once(self.restore_rv, .2)
 
-    def restore_rv(self):
+    def restore_rv(self, dt):
         # change height and clear RV
         self.parent.text = ""
         self.parent.canvas.opacity = 0
-        Clock.schedule_once(self.resize, 0.1)
+        Clock.schedule_once(self.resize, .2)
     
     def resize(self, value):
         self.parent.height = 1 # ensure the height is ok
@@ -3213,6 +3247,8 @@ class SaveRecipeButton(MDRectangleFlatIconButton):
         # 10. Empty all fields
         if not self.app.A5_edition :
             self.app.manager.screenA5.reset_recipe_items()
+        else:
+            self.app.manager.screenA5.unfocus_recipe_field()
 
 '''##################################################################################
                                 Custom Complex Layouts
@@ -3457,6 +3493,16 @@ class MyScatterPlane(ScatterPlane):
                     mat = Matrix().scale(1.1, 1.1, 1.1)
                     self.apply_transform(mat, anchor=touch.pos)
         return super().on_touch_up(touch)
+
+    def reset_scatter(self):
+        # Assuming 'my_scatter' is the instance of your Scatter widget
+        from kivy.graphics.transformation import Matrix
+        # This sets the transformation matrix back to the default identity matrix
+        self.transform = Matrix()
+        # Optionally reset scale and position properties for clarity, though setting the transform handles the underlying matrix
+        self.scale = 1.0
+        self.pos = (0, 0)
+        self.rotation = 0
     
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
@@ -3559,6 +3605,14 @@ class CuistotDingoApp(MDApp):
 
     close_textfield_icon_color = ColorProperty([1,1,1,1])
 
+    rst_literal_rect_color_default = [0.8, 0.8, 0.8]
+    rst_literal_rect_color_black = [0.37254901960784315, 0.36470588235294116, 0.36470588235294116]
+    rst_literal_bg_color_default = [0.9333333333333333, 0.9333333333333333, 0.9333333333333333]
+    rst_literal_bg_color_black = [0.17254901960784313, 0.16862745098039217, 0.16862745098039217]
+
+    rst_warning_bg_color_default = [1, 0, 0, .5]
+    rst_warning_bg_color_black = [.8, 0, 0, .2]
+
     # rstbox_paragraph_color = "202020ff"
     # rstbox_title_color = "204a87ff"
     # rstbox_bullet_color = "000000ff"
@@ -3568,6 +3622,7 @@ class CuistotDingoApp(MDApp):
     rstbox_title_color = "204a87ff"
     rstbox_bullet_color = "000000ff"
     rstbox_background_color = "ffffffcc"
+    
 
     separator_line_color = ColorProperty([0,0,0,0.38])
     item_icon_button_color = ColorProperty([0,0,0,1])
@@ -3596,6 +3651,8 @@ class CuistotDingoApp(MDApp):
 
     season_shared_uri = None
     picture_shared_uri = None
+
+    source_season_pc = join("images","season","saison_legumes_" + "quebec" + ".png")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -4248,8 +4305,6 @@ class CuistotDingoApp(MDApp):
                     log("The ingredients file is not a valid json :"+ str(e))
                     toast(self.current_lang["toast"][10])
 
-        log(" ----- end chooser callback pc ----")
-
     def chooser_start_picture(self):
         ''' Called to select picture from chooser. '''
         
@@ -4452,9 +4507,7 @@ class CuistotDingoApp(MDApp):
         except json_JSONDecodeError as e:
             log("The recipe file is not a valid json :"+ str(e))
             toast(self.current_lang["toast"][7])
-            
-        log(" ----- end chooser callback recipes ----")
-    
+                
     def chooser_callback_saison(self, uri_list):
         log(" ----- start chooser_callback saison ----")
         # Code to replace current saison.csv with the one selected from chooser
@@ -4662,7 +4715,6 @@ class CuistotDingoApp(MDApp):
         except json_JSONDecodeError as e:
             log("The ingredients file is not a valid json :"+ str(e))
             toast(self.current_lang["toast"][10])  
-    log(" ----- end chooser_callback_ingredients ----")
 
     def file_manager_open(self):
         self.file_manager.show_disks()
@@ -4740,6 +4792,11 @@ class CuistotDingoApp(MDApp):
         self.manager.edit_full_screen()
         if not self.manager.screen_season_loaded:
             self.manager.load_season_screen()
+        else:
+            self.manager.screenSeason.ids._season_image_pc.source = self.source_season_pc
+            # we reload the scatter init values
+            self.manager.screenSeason.ids._scatter.reset_scatter()
+            
         self.manager.current = "screen season"
 
     def open_season_pictures(self, path_picture):
@@ -4989,6 +5046,9 @@ class CuistotDingoApp(MDApp):
         #1. save image to private storage :
         self.source_picture = join("images","notes", picture_basename)
         copyfile(path,self.source_picture)
+
+        subdir = "notes"
+        self.downgrade_image_resolution(self.source_picture, subdir)
 
         #2. reload image :
         Clock.schedule_once(lambda dt: self.load_note_image())
@@ -5273,13 +5333,23 @@ class CuistotDingoApp(MDApp):
     '''##################################################################################
                                 Foreground functions
     ##################################################################################'''
-
+    
     def set_default_rst_colors(self):
+        from kivy.parser import parse_color 
+        a = parse_color("262730cc")
         # change rst color setting
         self.rstbox_paragraph_color = "202020ff"
         self.rstbox_title_color = "204a87ff"
         self.rstbox_bullet_color = "000000ff"
         self.rstbox_background_color = "ffffffcc"
+
+    @mainthread
+    def set_black_rst_colors(self):
+        # change rst color setting
+        self.rstbox_paragraph_color = "e5e6e9ff"
+        self.rstbox_title_color = "ff65d8ff"
+        self.rstbox_bullet_color = "ce5c00ff"
+        self.rstbox_background_color = "262730ff" # black_rgba_theme
 
     def segmented_activate(self, txt):
         match txt:
@@ -5397,11 +5467,7 @@ class CuistotDingoApp(MDApp):
                                  close_textfield_icon_color = self.white_rgba_default,
                                  text_notefield_color_normal = self.white_rgba_80)
 
-                # change rst color setting
-                self.rstbox_paragraph_color = "e5e6e9ff"
-                self.rstbox_title_color = "ff65d8ff"
-                self.rstbox_bullet_color = "ce5c00ff"
-                self.rstbox_background_color = "262730ff" # black_rgba_theme
+                self.set_black_rst_colors()
 
                 # save config
                 config_input["default_theme"] = "Black"
@@ -5599,13 +5665,13 @@ class CuistotDingoApp(MDApp):
                     self.manager.edit_full_screen()
                     self.manager.current = "screen calcul"
 
-                case "season_screen_google":
+                case "season_screen":
                     
                     if platform in ["android", "ios"]:
                         path_season = join("Documents", appname, "images","season","saison_legumes_" + field_text + ".png")
                         self.open_season_pictures(path_season) 
                     else:
-                        path_season = join("Documents", "CuistotDingo", "images","season","saison_legumes_" + field_text + ".png")
+                        self.source_season_pc = join("images","season","saison_legumes_" + field_text + ".png")
                         self.open_season_with_scatter()
 
                 case "restore_inactive_note_bg_color":
@@ -5642,7 +5708,9 @@ class CuistotDingoApp(MDApp):
                     self.show_help_dialog()
 
                 case "test_section":
-                    self.test_section()
+                    # used for test purpose
+                    pass
+                    # self.test_section()
 
                 case "load_notes_data":
                     self.show_load_notes_dialog()
@@ -5858,4 +5926,33 @@ class CuistotDingoApp(MDApp):
             nb_match = nb_recipes
         return nb_match
     
+    def select_rst_color(self, mode):
+        match mode:
+            case "warning":
+                if config_input["default_theme"] == "Black":
+                    if self.manager.current == "screen edit note":
+                        return self.rst_warning_bg_color_black
+                    else:
+                        return self.rst_warning_bg_color_default
+                else:
+                    return self.rst_warning_bg_color_default
+            case "literal-rect":
+                if config_input["default_theme"] == "Black":
+                    if self.manager.current == "screen edit note":
+                        return self.rst_literal_rect_color_black
+                    else:
+                        return self.rst_literal_rect_color_default
+                else:
+                    return self.rst_literal_rect_color_default
+                
+            case "literal-bg":
+                if config_input["default_theme"] == "Black":
+                    if self.manager.current == "screen edit note":
+                        return self.rst_literal_bg_color_black
+                    else:
+                        return self.rst_literal_bg_color_default
+                else:
+                    return self.rst_literal_bg_color_default
+
+                
 CuistotDingoApp().run()

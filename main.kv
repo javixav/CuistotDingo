@@ -9,17 +9,23 @@
 # Try to outline some widgets for design purpose
 # ----------------------------------------------
 
-# <widget1>:
-#     canvas:
+# <RstLiteralBlock>:
+#     canvas.after:
 #         Color:
-#             rgba: 1,1,1,1 # white color
-#             # rgba: 0,0,1,1 #  blue color
+#             # rgba: 1,1,1,1 # white color
+#             rgba: 0,0,1,1 #  blue color
 #         Line:
 #             rectangle: self.x,self.y,self.width,self.height
 #             dash_offset: 2
 #             dash_length: 5
-
 # ----------------------------------------------------------------------
+
+<RstLiteralBlock>:
+    canvas.after:
+        Color:
+            rgb: app.select_rst_color("literal-rect")
+        Line:
+            rectangle: self.x,self.y,self.width,self.height
 
 
 ##############################################################################################################
@@ -266,6 +272,51 @@
             app.manager.screenEditNote.ids._note_box.content_cls, \
             app.manager.screenEditNote.ids._note_box.dialog)
 
+<RstLiteralBlock>:
+    cols: 1
+    content: content
+    size_hint_y: None
+    height: content.texture_size[1] + dp(20)
+    canvas:
+        Color:
+            rgb: app.select_rst_color("literal-rect")
+        Rectangle:
+            pos: self.x - 1, self.y - 1
+            size: self.width + 2, self.height + 2
+        Color:
+            rgb: app.select_rst_color("literal-bg")
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        id: content
+        markup: True
+        valign: 'top'
+        text_size: self.width - 20, None
+        font_name: 'data/fonts/RobotoMono-Regular.ttf'
+        color: (0, 0, 0, 1)
+
+
+<RstWarning>:
+    content: content
+    cols: 1
+    padding: 20
+    size_hint_y: None
+    height: self.minimum_height
+    canvas:
+        Color:
+            #rgba: 1, 0, 0, .5
+            rgba: app.select_rst_color("warning")
+
+        Rectangle:
+            pos: self.x + 10, self.y + 10
+            size: self.width - 20, self.height - 20
+    GridLayout:
+        cols: 1
+        id: content
+        size_hint_y: None
+        height: self.minimum_height
+
 ##############################################################################################################
 ########################################      Icon-Button Rules      ###################################################
 ##############################################################################################################
@@ -289,3 +340,12 @@
 RootLayout:
     id: _root
     orientation: "vertical"
+
+    
+
+    
+        
+
+
+
+

@@ -3,6 +3,11 @@ A minimalist kivy app, that allows you to save recipes, search by name, take not
 
 <img align="right" height="256" src="https://github.com/javixav/CuistotDingo/tree/main/images/CuistotDingo.png"/>
 
+## Youtube demo
+
+[![CuistotDingo Demo]([https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg](https://youtu.be/FmcLHvFpFBU))](https://www.youtube.com)
+
+
 ## Dependencies:
 The app was tested on android API 29 with those dependencies (works also on desktop tested on Winwdows 10).
 

@@ -2,31 +2,17 @@ ScreenSeason:
     id: _screen_season
     name: "screen season"
 
-    MDCarousel:
-        id: _carousel_season
-        direction: "right"
-        
-        MyScatterPlane:
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            do_rotation: False
+    #MDBoxLayout:
+    MyScatterPlane:
+        id: _scatter
+        #pos_hint: {'center_x': .5, 'center_y': .5}
+        do_rotation: False
 
-            FitImage:
-                source: join("images","season","saison_legumes_quebec.png")
-                fit_mode: "contain"
-                size: _screen_season.width, _screen_season.height
-                allow_stretch: True
-                keep_ratio: True
-
-        MyScatterPlane:
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            do_rotation: False
-
-            Image:
-                source: join("images","season","saison_legumes_france.png")
-                fit_mode: "contain"
-                size: _screen_season.width, _screen_season.height
-                allow_stretch: True
-                keep_ratio: True
+        Image:
+            id: _season_image_pc
+            source: app.source_season_pc
+            fit_mode : "fill"
+            size: _screen_season.width , _screen_season.height
 
     MDIconButton:
         icon: "arrow-left"

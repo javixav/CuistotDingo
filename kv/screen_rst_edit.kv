@@ -31,6 +31,7 @@ ScreenRstEdit:
         x: 12
         pos_hint: {"top": .99}
         on_release: 
+            if app.main_theme_bg_color == app.black_rgba_theme : app.set_black_rst_colors()
             app.manager.screenEditNote.ids._note_box.add_rst(_rst_document, _rst_document.text)
             app.manager.current = "screen edit note"
 

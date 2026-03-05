@@ -23,4 +23,4 @@ ScreenRstHelp:
         on_release: 
             if not app.manager.screen_rst_code_loaded: app.manager.load_rst_code_screen()
             app.manager.current = "screen rst code"
-            app.manager.screenRstCode.ids._scroll_rst_code.scroll_y = 1
+            app.manager.screenRstCode.ids._scroll_rst_code.scroll_y = _rst_help.scroll_y + 0.09

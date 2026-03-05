@@ -61,21 +61,21 @@ ScreenD1:
 
                 MDRectangleFlatButton:
                     text: "france"
-                    on_release: app.rule_validate("season_screen_google" , self.text)
+                    on_release: app.rule_validate("season_screen" , self.text)
 
                 MDRectangleFlatButton:
                     text: "quebec"
-                    on_release: app.rule_validate("season_screen_google" , self.text)
+                    on_release: app.rule_validate("season_screen" , self.text)
 
             ConfigBoxButton:
                 label_text_config: app.current_lang["config"][25]
                 button_text_config: app.current_lang["config"][37]
                 function_code_config: "help_section"
 
-            ConfigBoxButton:
-                label_text_config: app.current_lang["config"][26]
-                button_text_config: app.current_lang["config"][38]
-                function_code_config: "test_section"
+            #ConfigBoxButton:
+            #    label_text_config: app.current_lang["config"][26]
+            #    button_text_config: app.current_lang["config"][38]
+            #    function_code_config: "test_section"
 
             ConfigBoxSegmented:
                 label_text_config: app.current_lang["config"][14]

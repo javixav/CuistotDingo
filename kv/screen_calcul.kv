@@ -86,10 +86,10 @@ MDScreen:
             SettingsField:
                 id: _celcius
                 size_hint_x: 0.5
-                text: str(round((float(_farenheit.text) - 32 ) *5/9 ,2)) if _farenheit.text else ""
+                text: str(round(int((float(_farenheit.text) - 32 ) *5/9) , 0)) if _farenheit.text else ""
                 line_color_normal: app.line_textfield_color_normal
                 text_color_normal: app.text_textfield_color_normal
-                on_text_validate: _farenheit.text = str(round(float(self.text)*1.8 + 32 ,2))
+                on_text_validate: _farenheit.text = str(round(int(float(self.text)*1.8) + 32 , 0))
                 on_kv_post:
                     Clock.schedule_once(partial(app.delay_focus_true, self), 0)
 

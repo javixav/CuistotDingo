@@ -1,7 +1,6 @@
 from unidecode import unidecode
 from difflib import SequenceMatcher
 
-
 def home_made(mydico,txt,n):
     ''' Matches the txt input in mydico to return n items based on spelling, 
     jelly jaro can be used also. Here mydico needs to be in the format : {key : recipe dic} '''
@@ -53,6 +52,5 @@ def DiffSequenceMatcher(mydico, str1, n):
     for i in range(n):
         key = sorted[i][0]
         output[key] = mydico[key]
-
 
     return output

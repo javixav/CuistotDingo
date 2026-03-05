@@ -5,7 +5,7 @@ A minimalist kivy app, that allows you to save recipes, search by name, take not
 
 ## Youtube demo
 
-[![CuistotDingo Demo]([https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg](https://youtu.be/FmcLHvFpFBU))](https://www.youtube.com)
+[![CuistotDingo, an app to store recipes](https://img.youtube.com/vi/FmcLHvFpFBU/0.jpg)](https://www.youtube.com)
 
 
 ## Dependencies:

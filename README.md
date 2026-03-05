@@ -11,7 +11,7 @@ A minimalist kivy app, that allows you to save recipes, search by name, take not
   <a href="https://www.youtube.com/watch?v=FmcLHvFpFBU">
     <img 
         width="600" 
-        src="https://github.com/javixav/CuistotDingo/blob/main/images/other%20images/CuistotDingo%20-%20original.png" 
+        src="https://github.com/javixav/CuistotDingo/blob/main/images/other%20images/CuistotDingo-demo-pict.png" 
         title="Click to watch demo application"
     >
   </a>

@@ -36,7 +36,7 @@ The app was tested on android API 29 with those dependencies (works also on desk
 
 ## How to install
 1. You need to generate the apk file with buildozer. Follow procedure [here](https://www.youtube.com/watch?v=BDdQJ0zHSW0)
-2. When you'll generate the first apk, you need to edit the AndroidManifest.tmpl.xml file located in \.buildozer\android\platform\build-arm64-v8a\dists\cuistotdingov24\templates\AndroidManifest.tmpl.xml and add android:requestLegacyExternalStorage="true" to the <application tag.This ensure that you will be able to have Write access to android storage. Then if you want you're app not to be killed when memory is needed, or at least rebuild your app if it was killed by android, you'll need to open PythonService.java loacated in
+2. When you'll generate the first apk, you need to edit the AndroidManifest.tmpl.xml file located in \.buildozer\android\platform\build-arm64-v8a\dists\cuistotdingov24\templates\AndroidManifest.tmpl.xml and add android:requestLegacyExternalStorage="true" to the <application tag.This ensure that you will be able to have Write access to android storage. Then if you want you're app not to be killed when memory is needed, or at least rebuild your app if it was killed by android, you'll need to open PythonService.java located in
 .buildozer\android\platform\build-arm64-v8a\dists\cuistotdingov24\src\main\java\org\kivy\android\PythonService.java
 
 and change START_NOT_STICKY to START_STICKY

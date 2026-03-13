@@ -3211,7 +3211,7 @@ class SaveRecipeButton(MDRectangleFlatIconButton):
         screen = self.app.appbar.current_nav_screen
         previous_screen = screen + str(self.app.manager.index+1)
 
-        if self.app.manager.screenA4.search_by_ingredient_triggered and rvtextfield != "" :
+        if self.app.manager.screenA4.search_by_ingredient_triggered and rvtextfield != "" and rvtextfield in recipes[3] :
             # rvtextfield = "" can lead to key error
             new_number_tiles_A4 = str(len(recipes[3][rvtextfield]))
             
